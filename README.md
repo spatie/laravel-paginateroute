@@ -28,7 +28,7 @@ First register the service provider in your application.
 ];
 ```
 
-Then register the macros in `App\Providers\RouteServiceProder::boot()`.
+Then register the macros in `App\Providers\RouteServiceProvider::boot()`.
 
 ``` php
 // app/Providers/RouteServiceProvider.php
