@@ -89,7 +89,7 @@ If you discover any security related issues, please email :author_email instead 
 
 ## Credits
 
-- [Sebastian De Deybe](https://github.com/sebastiandedeyne)
+- [Sebastian De Deyne](https://github.com/sebastiandedeyne)
 - [All Contributors](../../contributors)
 
 ## License
