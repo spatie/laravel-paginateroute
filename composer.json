@@ -1,6 +1,6 @@
 {
     "name": "spatie/laravel-paginateroute",
-    "description": "laravel-paginateroute",
+    "description": "Laravel outer extension to easily use laravel's paginator without the query string",
     "keywords": [
         "spatie",
         "laravel-paginateroute",
