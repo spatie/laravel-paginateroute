@@ -2,8 +2,6 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-paginateroute.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-paginateroute)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/thephpspatie/laravel-paginateroute/master.svg?style=flat-square)](https://travis-ci.org/thephpspatie/laravel-paginateroute)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/thephpspatie/laravel-paginateroute.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpspatie/laravel-paginateroute/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/thephpspatie/laravel-paginateroute.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpspatie/laravel-paginateroute)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-paginateroute.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-paginateroute)
 
@@ -69,7 +67,7 @@ public function index()
 If you want to customize or add translations for the "page" url segment, you can publish the language files.
 
 ``` bash
-$ art vendor:publish --provider="Spatie\PaginateRoute\PaginateRouteServiceProvider"
+$ php artisan vendor:publish --provider="Spatie\PaginateRoute\PaginateRouteServiceProvider"
 ```
 
 
