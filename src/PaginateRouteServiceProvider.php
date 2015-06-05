@@ -2,6 +2,7 @@
 
 namespace Spatie\PaginateRoute;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class PaginateRouteServiceProvider extends ServiceProvider
@@ -25,6 +26,6 @@ class PaginateRouteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->instance('paginateroute', new PaginateRoute);
+        $this->app->singleton('paginateroute', 'Spatie\PaginateRoute\PaginateRoute');
     }
 }
