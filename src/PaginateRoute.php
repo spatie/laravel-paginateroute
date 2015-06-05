@@ -122,8 +122,8 @@ class PaginateRoute
     /**
      * Get the previous page url
      * 
-     * @param  $long  Return the full version of the url in for the first page
-     *                Ex. /users/page/1 instead of /users
+     * @param  bool $full  Return the full version of the url in for the first page
+     *                     Ex. /users/page/1 instead of /users
      * @return string|null
      */
     public function previousPageUrl($full = false)

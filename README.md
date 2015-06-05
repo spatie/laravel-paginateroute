@@ -70,10 +70,59 @@ If you want to customize or add translations for the "page" url segment, you can
 $ php artisan vendor:publish --provider="Spatie\PaginateRoute\PaginateRouteServiceProvider"
 ```
 
+### Generating Url's
 
-## Limitations
+Since laravel's paginator url's will still use a query string, PaginateRoute has it's own url generator and page helper functions.
 
-Laravel's paginator url functions still returns the default query-string version of the url, so you'll need to add some sort of logic to your controller action or views to generate next page, previous page and other urls.
+The `nextPage` functions require the paginator instance as a parameter, so they can determine whether there are any more records.
+
+``` php
+/**
+ * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
+ * @return int|null
+ */
+public function nextPage(Paginator $paginator)
+```
+
+``` php
+/**
+ * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
+ * @return bool
+ */
+public function hasNextPage(Paginator $paginator)
+```
+
+``` php
+/**
+ * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
+ * @return string|null
+ */
+public function nextPageUrl(Paginator $paginator)
+```
+
+``` php
+/**
+ * @return int|null
+ */
+public function previousPage()
+```
+
+``` php
+/**
+ * @return bool
+ */
+public function hasPreviousPage()
+```
+
+``` php
+/**
+ * @param  bool $full
+ * @return string|null
+ */
+public function previousPageUrl($full = false)
+```
+
+If `$full` is true, the first page will be a fully qualified url. Ex. `/users/page/1` instead if just `/users` (this is the default).
 
 ## Changelog
 
@@ -89,7 +138,7 @@ If you discover any security related issues, please email :author_email instead 
 
 ## Credits
 
-- [Sebastian De Deybe](https://github.com/sebastiandedeyne)
+- [Sebastian De Deyne](https://github.com/sebastiandedeyne)
 - [All Contributors](../../contributors)
 
 ## License
