@@ -7,8 +7,6 @@
 
 This package adds the `paginate` route method to support pagination via custom routes instead of query strings. This also allows for easily translatable pagination routes ex. `/news/page/2`, `/nieuws/pagina/2`.
 
-This is currently a relatively small package that doesn't cover all use cases, make sure you check out the limitations section of this readme.
-
 ## Install
 
 Via Composer
