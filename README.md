@@ -17,7 +17,7 @@ Via Composer
 $ composer require spatie/laravel-paginateroute
 ```
 
-First register the service provider in your application.
+First register the service provider and facade in your application.
 
 ``` php
 // config/app.php
@@ -26,16 +26,25 @@ First register the service provider in your application.
     ...
     'Spatie\PaginateRoute\PaginateRouteServiceProvider',
 ];
+
+'aliases' => [
+    ...
+    'PaginateRoute' => 'Spatie\PaginateRoute\PaginateRouteFacade',
+];
 ```
 
-Then register the macros in `App\Providers\RouteServiceProder::boot()`.
+Then register the macros in `App\Providers\RouteServiceProvider::boot()`.
 
 ``` php
 // app/Providers/RouteServiceProvider.php
 
+use PaginateRoute;
+
+// ...
+
 public function boot(Router $router)
 {
-    $this->app['paginateroute']->registerMacros();
+    PaginateRoute::registerMacros();
     
     parent::boot($router);
 }
@@ -73,6 +82,18 @@ $ php artisan vendor:publish --provider="Spatie\PaginateRoute\PaginateRouteServi
 ### Generating Url's
 
 Since laravel's paginator url's will still use a query string, PaginateRoute has it's own url generator and page helper functions.
+
+```
+{{-- $users is an instance of \Illuminate\Contracts\Pagination\Paginator --}}
+
+@if(PaginateRoute::hasPreviousPage())
+  <a href="{{ PaginateRoute::previousPageUrl() }}">Previous</a>
+@endif
+
+@if(PaginateRoute::hasNextPage($users))
+  <a href="{{ PaginateRoute::nextPageUrl($users) }}">Next</a>
+@endif
+```
 
 The `nextPage` functions require the paginator instance as a parameter, so they can determine whether there are any more records.
 

@@ -90,6 +90,8 @@ class PaginateRoute
             return $nextPage;
         }
 
+        // This should call the current action with a different parameter
+        // Afaik there's no cleaner way to do this
         $url = str_replace('{page}', $nextPage, $this->router->getCurrentRoute()->getUri());
 
         return $this->urlGenerator->to($url);
@@ -140,6 +142,8 @@ class PaginateRoute
             return $this->urlGenerator->to($url);
         }
 
+        // This should call the current action with a different parameter
+        // Afaik there's no cleaner way to do this
         $url = str_replace('{page}', $previousPage, $this->router->getCurrentRoute()->getUri());
 
         return $this->urlGenerator->to($url);
