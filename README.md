@@ -60,7 +60,7 @@ Route::paginate('users', 'UsersController@index');
 
 ```
 
-In your route's action you can just use laravel's regular pagination methods.
+In your route's action you can just use Laravel's regular pagination methods.
 
 ``` php
 // app/Http/Controllers/UsersController.php
@@ -79,7 +79,7 @@ $ php artisan vendor:publish --provider="Spatie\PaginateRoute\PaginateRouteServi
 
 ### Generating Url's
 
-Since laravel's paginator url's will still use a query string, PaginateRoute has it's own url generator and page helper functions.
+Since Laravel's paginator url's will still use a query string, PaginateRoute has it's own url generator and page helper functions.
 
 ```
 {{-- $users is an instance of \Illuminate\Contracts\Pagination\Paginator --}}
