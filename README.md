@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-paginateroute.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-paginateroute)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Quality Score](https://img.shields.io/scrutinizer/g/thephpspatie/laravel-paginateroute.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpspatie/laravel-paginateroute)
+[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-paginateroute.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-paginateroute)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-paginateroute.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-paginateroute)
 
 This package adds the `paginate` route method to support pagination via custom routes instead of query strings. This also allows for easily translatable pagination routes ex. `/news/page/2`, `/nieuws/pagina/2`.
@@ -155,7 +155,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
+If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
 
 ## Credits
 
