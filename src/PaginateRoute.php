@@ -11,6 +11,26 @@ use Illuminate\Translation\Translator;
 class PaginateRoute
 {
     /**
+     * @var \Illuminate\Translation\Translator
+     */
+    protected $translator;
+
+    /**
+     * @var \Illuminate\Routing\Route
+     */
+    protected $router;
+
+    /**
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * @var \Illuminate\Contracts\Routing\UrlGenerator
+     */
+    protected $urlGenerator;
+
+    /**
      * @param  \Illuminate\Translation\Translator $translator
      * @param  \Illuminate\Routing\Router $router
      * @param  \Illuminate\Http\Request $request
@@ -18,10 +38,10 @@ class PaginateRoute
      */
     public function __construct(Translator $translator, Router $router, Request $request, UrlGenerator $urlGenerator)
     {
-    $this->translator                     = $translator;
-    $this->router                         = $router;
-    $this->request                        = $request;
-    $this->urlGenerator                   = $urlGenerator;
+    $this->translator    = $translator;
+    $this->router        = $router;
+    $this->request       = $request;
+    $this->urlGenerator  = $urlGenerator;
 
         // Unfortunately we can't do this in the service provider since routes are booted first
         $this->translator->addNamespace('paginateroute', __DIR__.'/../resources/lang');
@@ -37,15 +57,14 @@ class PaginateRoute
     public function registerMacros()
     {
         $pageName = $this->pageName;
+        $router   = $this->router;
 
-        $this->router->macro('paginate', function ($uri, $action) use ($pageName) {
-            // $this is the router
-            $this->group(
+        $router->macro('paginate', function ($uri, $action) use ($pageName, $router) {
+            $router->group(
                 ['middleware' => 'Spatie\PaginateRoute\SetPageMiddleware'],
-                function () use ($pageName, $uri, $action) {
-                    // $this is the router
-                    $this->get($uri, $action);
-                    $this->get($uri.'/'.$pageName.'/{page}', $action)->where('page', '[0-9]+');
+                function () use ($pageName, $router, $uri, $action) {
+                    $router->get($uri, $action);
+                    $router->get($uri.'/'.$pageName.'/{page}', $action)->where('page', '[0-9]+');
                 });
         });
     }
