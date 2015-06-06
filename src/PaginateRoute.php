@@ -7,6 +7,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Translation\Translator;
+use Spatie\String\String;
 
 class PaginateRoute
 {
@@ -38,10 +39,10 @@ class PaginateRoute
      */
     public function __construct(Translator $translator, Router $router, Request $request, UrlGenerator $urlGenerator)
     {
-    $this->translator    = $translator;
-    $this->router        = $router;
-    $this->request       = $request;
-    $this->urlGenerator  = $urlGenerator;
+        $this->translator    = $translator;
+        $this->router        = $router;
+        $this->request       = $request;
+        $this->urlGenerator  = $urlGenerator;
 
         // Unfortunately we can't do this in the service provider since routes are booted first
         $this->translator->addNamespace('paginateroute', __DIR__.'/../resources/lang');
@@ -111,9 +112,11 @@ class PaginateRoute
 
         // This should call the current action with a different parameter
         // Afaik there's no cleaner way to do this
-        $url = str_replace('{page}', $nextPage, $this->router->getCurrentRoute()->getUri());
+        
+        $currentPageUrl = new String($this->router->getCurrentRoute()->getUri());
+        $nextPageUrl = $currentPageUrl->replaceLast('{page}', $nextPage);
 
-        return $this->urlGenerator->to($url);
+        return $this->urlGenerator->to($nextPageUrl);
     }
 
     /**
@@ -155,16 +158,17 @@ class PaginateRoute
             return null;
         }
 
-        if ($previousPage === 1 && !$full) {
-            $url = str_replace($this->pageName.'/{page}', '', $this->router->getCurrentRoute()->getUri());
-
-            return $this->urlGenerator->to($url);
-        }
-
         // This should call the current action with a different parameter
         // Afaik there's no cleaner way to do this
-        $url = str_replace('{page}', $previousPage, $this->router->getCurrentRoute()->getUri());
+        
+        $currentPageUrl = new String($this->router->getCurrentRoute()->getUri());
 
-        return $this->urlGenerator->to($url);
+        if ($previousPage === 1 && !$full) {
+            $previousPageUrl = $currentPageUrl->replaceLast($this->pageName.'/{page}', '');
+        } else {
+            $previousPageUrl = $currentPageUrl->replaceLast('{page}', $previousPage);
+        }
+
+        return $this->urlGenerator->to($previousPageUrl);
     }
 }
