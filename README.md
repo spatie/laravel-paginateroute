@@ -7,8 +7,6 @@
 
 This package adds the `paginate` route method to support pagination via custom routes instead of query strings. This also allows for easily translatable pagination routes ex. `/news/page/2`, `/nieuws/pagina/2`.
 
-This is currently a relatively small package that doesn't cover all use cases, make sure you check out the limitations section of this readme.
-
 ## Install
 
 Via Composer
@@ -62,7 +60,7 @@ Route::paginate('users', 'UsersController@index');
 
 ```
 
-In your route's action you can just use laravel's regular pagination methods.
+In your route's action you can just use Laravel's regular pagination methods.
 
 ``` php
 // app/Http/Controllers/UsersController.php
@@ -81,7 +79,7 @@ $ php artisan vendor:publish --provider="Spatie\PaginateRoute\PaginateRouteServi
 
 ### Generating Url's
 
-Since laravel's paginator url's will still use a query string, PaginateRoute has it's own url generator and page helper functions.
+Since Laravel's paginator url's will still use a query string, PaginateRoute has it's own url generator and page helper functions.
 
 ```
 {{-- $users is an instance of \Illuminate\Contracts\Pagination\Paginator --}}
