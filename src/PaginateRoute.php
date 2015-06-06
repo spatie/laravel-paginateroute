@@ -17,7 +17,7 @@ class PaginateRoute
     protected $translator;
 
     /**
-     * @var \Illuminate\Routing\Route
+     * @var \Illuminate\Routing\Router
      */
     protected $router;
 
