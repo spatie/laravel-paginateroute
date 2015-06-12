@@ -2,9 +2,13 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file
 
-## 2015-06-05
+## 1.1.1
+- Bugfix: Parameterless route should trump the parameter route
+- Bugfix: URL generation is more reliable
+
+## 1.1.0
 - PHP version requirement is now 5.4
 - Added pagination url functions
 
-## 2015-06-03
+## 1.0.0
 - First release!

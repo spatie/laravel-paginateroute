@@ -82,7 +82,7 @@ class PaginateRoute
             return null;
         }
 
-        return $this->router->getCurrentRoute()->parameter('page') + 1;
+        return ($this->router->getCurrentRoute()->parameter('page') ?: 1) + 1;
     }
 
     /**
@@ -114,7 +114,12 @@ class PaginateRoute
         // Afaik there's no cleaner way to do this
         
         $currentPageUrl = new String($this->router->getCurrentRoute()->getUri());
-        $nextPageUrl = $currentPageUrl->replaceLast('{page}', $nextPage);
+
+        if ((string) $currentPageUrl->segment('/', -2) === $this->pageName) {
+            $nextPageUrl = $currentPageUrl->replaceLast('{page}', $nextPage);
+        } else {
+            $nextPageUrl = $currentPageUrl->suffix('/'.$this->pageName.'/'.$nextPage);
+        }
 
         return $this->urlGenerator->to($nextPageUrl);
     }
