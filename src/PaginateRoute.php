@@ -32,6 +32,11 @@ class PaginateRoute
     protected $urlGenerator;
 
     /**
+     * @var string
+     */
+    protected $pageName;
+
+    /**
      * @param  \Illuminate\Translation\Translator $translator
      * @param  \Illuminate\Routing\Router $router
      * @param  \Illuminate\Http\Request $request
