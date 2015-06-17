@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file
 
+## 1.2.0
+- Added Portuguese translation
+
 ## 1.1.1
 - Bugfix: Parameterless route should trump the parameter route
 - Bugfix: URL generation is more reliable
