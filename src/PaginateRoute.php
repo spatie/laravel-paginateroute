@@ -87,7 +87,7 @@ class PaginateRoute
             return null;
         }
 
-        return ($this->router->getCurrentRoute()->parameter('page') ?: 1) + 1;
+        return $this->router->getCurrentRoute()->parameter('page', 1) + 1;
     }
 
     /**
