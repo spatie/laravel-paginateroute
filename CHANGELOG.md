@@ -2,8 +2,12 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file
 
+## 1.3.0
+- Added: Hebrew translation
+- Minor refactors
+
 ## 1.2.0
-- Added Portuguese translation
+- Added: Portuguese translation
 
 ## 1.1.1
 - Bugfix: Parameterless route should trump the parameter route
@@ -11,7 +15,7 @@ All Notable changes to `spatie/laravel-paginateroute` will be documented in this
 
 ## 1.1.0
 - PHP version requirement is now 5.4
-- Added pagination url functions
+- Added: pagination url functions
 
 ## 1.0.0
 - First release!
