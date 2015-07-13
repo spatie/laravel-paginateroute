@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file
 
+## 1.4.0
+- Make compatible with spatie/string 2.*
+
 ## 1.3.0
 - Added: Hebrew translation
 - Minor refactors
