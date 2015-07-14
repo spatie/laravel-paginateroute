@@ -7,7 +7,6 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Translation\Translator;
-use Spatie\String\String;
 
 class PaginateRoute
 {
@@ -118,12 +117,12 @@ class PaginateRoute
         // This should call the current action with a different parameter
         // Afaik there's no cleaner way to do this
         
-        $currentPageUrl = new String($this->router->getCurrentRoute()->getUri());
+        $currentPageUri = $this->router->getCurrentRoute()->getUri();
 
-        if ((string) $currentPageUrl->segment('/', -2) === $this->pageName) {
-            $nextPageUrl = $currentPageUrl->replaceLast('{page}', $nextPage);
+        if ((string) $this->getUriSegment($currentPageUri, -2) === $this->pageName) {
+            $nextPageUrl = str_replace('{page}', $nextPage, $currentPageUri);
         } else {
-            $nextPageUrl = $currentPageUrl->suffix('/'.$this->pageName.'/'.$nextPage);
+            $nextPageUrl = $currentPageUri.'/'.$this->pageName.'/'.$nextPage;
         }
 
         return $this->urlGenerator->to($nextPageUrl);
@@ -171,14 +170,33 @@ class PaginateRoute
         // This should call the current action with a different parameter
         // Afaik there's no cleaner way to do this
         
-        $currentPageUrl = new String($this->router->getCurrentRoute()->getUri());
+        $currentPageUri = $this->router->getCurrentRoute()->getUri();
 
         if ($previousPage === 1 && !$full) {
-            $previousPageUrl = $currentPageUrl->replaceLast($this->pageName.'/{page}', '');
+            $previousPageUrl = str_replace($this->pageName.'/{page}', '', $currentPageUri);
         } else {
-            $previousPageUrl = $currentPageUrl->replaceLast('{page}', $previousPage);
+            $previousPageUrl = str_replace('{page}', $previousPage, $currentPageUri);
         }
 
         return $this->urlGenerator->to($previousPageUrl);
+    }
+
+    /**
+     * @param  string $uri
+     * @param  int $index
+     * @return string
+     */
+    protected function getUriSegment($uri, $index)
+    {
+        $segments = explode('/', $uri);
+
+        if ($index < 0) {
+            $segments = array_reverse($segments);
+            $index = abs($index) - 1;
+        }
+
+        $segment = isset($segments[$index]) ? $segments[$index] : '';
+
+        return $segment;
     }
 }
