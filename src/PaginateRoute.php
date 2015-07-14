@@ -117,12 +117,12 @@ class PaginateRoute
         // This should call the current action with a different parameter
         // Afaik there's no cleaner way to do this
         
-        $currentPageUri = $this->router->getCurrentRoute()->getUri();
+        $currentPageUrl = $this->router->getCurrentRoute()->getUri();
 
-        if ((string) $this->getUriSegment($currentPageUri, -2) === $this->pageName) {
-            $nextPageUrl = str_replace('{page}', $nextPage, $currentPageUri);
+        if ((string) $this->getUrlSegment($currentPageUrl, -2) === $this->pageName) {
+            $nextPageUrl = str_replace('{page}', $nextPage, $currentPageUrl);
         } else {
-            $nextPageUrl = $currentPageUri.'/'.$this->pageName.'/'.$nextPage;
+            $nextPageUrl = $currentPageUrl.'/'.$this->pageName.'/'.$nextPage;
         }
 
         return $this->urlGenerator->to($nextPageUrl);
@@ -170,12 +170,12 @@ class PaginateRoute
         // This should call the current action with a different parameter
         // Afaik there's no cleaner way to do this
         
-        $currentPageUri = $this->router->getCurrentRoute()->getUri();
+        $currentPageUrl = $this->router->getCurrentRoute()->getUri();
 
         if ($previousPage === 1 && !$full) {
-            $previousPageUrl = str_replace($this->pageName.'/{page}', '', $currentPageUri);
+            $previousPageUrl = str_replace($this->pageName.'/{page}', '', $currentPageUrl);
         } else {
-            $previousPageUrl = str_replace('{page}', $previousPage, $currentPageUri);
+            $previousPageUrl = str_replace('{page}', $previousPage, $currentPageUrl);
         }
 
         return $this->urlGenerator->to($previousPageUrl);
@@ -186,7 +186,7 @@ class PaginateRoute
      * @param  int $index
      * @return string
      */
-    protected function getUriSegment($uri, $index)
+    protected function getUrlSegment($uri, $index)
     {
         $segments = explode('/', $uri);
 
