@@ -3,6 +3,7 @@
 namespace Spatie\PaginateRoute;
 
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -111,21 +112,10 @@ class PaginateRoute
         $nextPage = $this->nextPage($paginator);
 
         if ($nextPage === null) {
-            return $nextPage;
+            return null;
         }
-
-        // This should call the current action with a different parameter
-        // Afaik there's no cleaner way to do this
         
-        $currentPageUrl = $this->router->getCurrentRoute()->getUri();
-
-        if ((string) $this->getUrlSegment($currentPageUrl, -2) === $this->pageName) {
-            $nextPageUrl = str_replace('{page}', $nextPage, $currentPageUrl);
-        } else {
-            $nextPageUrl = $currentPageUrl.'/'.$this->pageName.'/'.$nextPage;
-        }
-
-        return $this->urlGenerator->to($nextPageUrl);
+        return $this->generatePageUrl($nextPage);
     }
 
     /**
@@ -167,18 +157,89 @@ class PaginateRoute
             return null;
         }
 
-        // This should call the current action with a different parameter
-        // Afaik there's no cleaner way to do this
-        
-        $currentPageUrl = $this->router->getCurrentRoute()->getUri();
+        return $this->generatePageUrl($previousPage);
+    }
 
-        if ($previousPage === 1 && !$full) {
-            $previousPageUrl = str_replace($this->pageName.'/{page}', '', $currentPageUrl);
-        } else {
-            $previousPageUrl = str_replace('{page}', $previousPage, $currentPageUrl);
+    /**
+     * Get all urls in an array
+     * 
+     * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+     * @param  bool $full Return the full version of the url in for the first page
+     *                    Ex. /users/page/1 instead of /users
+     * @return array
+     */
+    public function allUrls(LengthAwarePaginator $paginator, $full = false)
+    {
+        if (!$paginator->hasPages()) {
+            return [];
         }
 
-        return $this->urlGenerator->to($previousPageUrl);
+        $urls = [];
+
+        for ($page = 1; $page <= $paginator->lastPage(); $page++) {
+            $urls[] = $this->generatePageUrl($page, $full);
+        }
+
+        return $urls;
+    }
+
+    /**
+     * Render a plain html list with all urls. The current page gets a current class on the list item.
+     * 
+     * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+     * @param  bool $full Return the full version of the url in for the first page
+     *                    Ex. /users/page/1 instead of /users
+     * @return string
+     */
+    public function renderHtml(LengthAwarePaginator $paginator, $full = false)
+    {
+        $urls = $this->allUrls($paginator, $full);
+
+        $current = (int) $this->router->getCurrentRoute()->getParameter('page') ?: 1;
+
+        $listItems = '<ul>';
+
+        foreach ($urls as $i => $url) {
+            if ($i+1 === $current) {
+                $listItems .= '<li class="active">';
+            } else {
+                $listItems .= '<li>';
+            }
+
+            $listItems .= '<a href="'.$url.'">'.($i+1).'</a></li>';
+        }
+
+        $listItems .= '</ul>';
+
+        return $listItems;
+    }
+
+    /**
+     * Generate a page url, based on the request's current url.
+     * 
+     * @param  int $page
+     * @param  bool $full Return the full version of the url in for the first page
+     *                    Ex. /users/page/1 instead of /users
+     * @return string
+     */
+    public function generatePageUrl($page, $full = false)
+    {
+        $currentPageUrl = $this->router->getCurrentRoute()->getUri();
+        
+        // If the page key isn't in the url, we're on the index page
+        if ($this->getUrlSegment($currentPageUrl, -2) !== $this->pageName) {
+            $baseUrl = trim($currentPageUrl, '/');
+        } else {
+            $baseUrl = trim(str_replace($this->pageName.'/{page}', '', $currentPageUrl), '/');
+        }
+
+        if ($page === 1 && !$full) {
+            $newPageUrl = $baseUrl;
+        } else {
+            $newPageUrl = $baseUrl.'/'.$this->pageName.'/'.$page;
+        }
+
+        return $this->urlGenerator->to($newPageUrl);
     }
 
     /**

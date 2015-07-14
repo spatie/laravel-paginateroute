@@ -18,7 +18,7 @@ $ composer require spatie/laravel-paginateroute
 
 First register the service provider and facade in your application.
 
-``` php
+```php
 // config/app.php
 
 'providers' => [
@@ -34,7 +34,7 @@ First register the service provider and facade in your application.
 
 Then register the macros in `App\Providers\RouteServiceProvider::boot()`.
 
-``` php
+```php
 // app/Providers/RouteServiceProvider.php
 
 use PaginateRoute;
@@ -53,7 +53,7 @@ public function boot(Router $router)
 
 The `paginate` route macro will register two routes for you.
 
-``` php
+```php
 // app/Http/routes.php
 
 // Generates /users & /users/page/{page}
@@ -63,7 +63,7 @@ Route::paginate('users', 'UsersController@index');
 
 In your route's action you can just use Laravel's regular pagination methods.
 
-``` php
+```php
 // app/Http/Controllers/UsersController.php
 
 public function index()
@@ -96,7 +96,7 @@ Since Laravel's paginator url's will still use a query string, PaginateRoute has
 
 The `nextPage` functions require the paginator instance as a parameter, so they can determine whether there are any more records.
 
-``` php
+```php
 /**
  * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
  * @return int|null
@@ -104,7 +104,7 @@ The `nextPage` functions require the paginator instance as a parameter, so they 
 public function nextPage(Paginator $paginator)
 ```
 
-``` php
+```php
 /**
  * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
  * @return bool
@@ -112,7 +112,7 @@ public function nextPage(Paginator $paginator)
 public function hasNextPage(Paginator $paginator)
 ```
 
-``` php
+```php
 /**
  * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
  * @return string|null
@@ -120,21 +120,21 @@ public function hasNextPage(Paginator $paginator)
 public function nextPageUrl(Paginator $paginator)
 ```
 
-``` php
+```php
 /**
  * @return int|null
  */
 public function previousPage()
 ```
 
-``` php
+```php
 /**
  * @return bool
  */
 public function hasPreviousPage()
 ```
 
-``` php
+```php
 /**
  * @param  bool $full
  * @return string|null
@@ -143,6 +143,34 @@ public function previousPageUrl($full = false)
 ```
 
 If `$full` is true, the first page will be a fully qualified url. Ex. `/users/page/1` instead if just `/users` (this is the default).
+
+```php
+/**
+ * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+ * @param  bool $full
+ * @return array
+ */
+public function allUrls(LengthAwarePaginator $paginator, $full = false)
+```
+
+Retrieve an array with all available urls. You can also render these as a plain html list. Note that these functions require a `LengthAwarePaginator`.
+
+```php
+/**
+ * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+ * @param  bool $full
+ * @return string
+ */
+public function renderHtml(LengthAwarePaginator $paginator, $full = false)
+```
+
+## Tests
+
+The package contains some integration/smoke tests, set up with Orchestra. The tests can be run via phpunit.
+
+```
+$ phpunit
+```
 
 ## Changelog
 

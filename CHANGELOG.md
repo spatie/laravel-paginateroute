@@ -2,6 +2,10 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file
 
+## 1.5.0
+- Added: allUrls function
+- Added: renderHtml function
+
 ## 1.4.0
 - Test coverage
 - Removed spatie/string dependency

@@ -26,19 +26,6 @@ abstract class TestCase extends Orchestra
         $this->app['paginateroute']->registerMacros();
 
         $this->hostName = $this->app['config']->get('app.url');
-
-        $this->app['router']->paginate('dummies', function() {
-            $dummies = Dummy::simplePaginate(5);
-            $paginateRoute = $this->app['paginateroute'];
-
-            return [
-                'hasPrevious' => $this->app['paginateroute']->hasPreviousPage(),
-                'previousPageUrl' => $this->app['paginateroute']->previousPageUrl(),
-                'models' => $dummies->toArray(),
-                'hasNext' => $this->app['paginateroute']->hasNextPage($dummies),
-                'nextPageUrl' => $this->app['paginateroute']->nextPageUrl($dummies),
-            ];
-        });
     }
 
     /**
@@ -84,6 +71,22 @@ abstract class TestCase extends Orchestra
         for ($i = 1; $i <= 20; $i++) {
             Dummy::create(['name' => "Dummy {$i}"]);
         }
+    }
+
+    protected function registerDefaultRoute()
+    {
+        $this->app['router']->paginate('dummies', function() {
+            $dummies = Dummy::paginate(5);
+            $paginateRoute = $this->app['paginateroute'];
+
+            return [
+                'hasPrevious' => $this->app['paginateroute']->hasPreviousPage(),
+                'previousPageUrl' => $this->app['paginateroute']->previousPageUrl(),
+                'models' => $dummies->toArray(),
+                'hasNext' => $this->app['paginateroute']->hasNextPage($dummies),
+                'nextPageUrl' => $this->app['paginateroute']->nextPageUrl($dummies),
+            ];
+        });
     }
 
     /**
