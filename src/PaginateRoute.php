@@ -37,17 +37,17 @@ class PaginateRoute
     protected $pageName;
 
     /**
-     * @param  \Illuminate\Translation\Translator $translator
-     * @param  \Illuminate\Routing\Router $router
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Illuminate\Contracts\Routing\UrlGenerator $urlGenerator
+     * @param \Illuminate\Translation\Translator         $translator
+     * @param \Illuminate\Routing\Router                 $router
+     * @param \Illuminate\Http\Request                   $request
+     * @param \Illuminate\Contracts\Routing\UrlGenerator $urlGenerator
      */
     public function __construct(Translator $translator, Router $router, Request $request, UrlGenerator $urlGenerator)
     {
-        $this->translator    = $translator;
-        $this->router        = $router;
-        $this->request       = $request;
-        $this->urlGenerator  = $urlGenerator;
+        $this->translator = $translator;
+        $this->router = $router;
+        $this->request = $request;
+        $this->urlGenerator = $urlGenerator;
 
         // Unfortunately we can't do this in the service provider since routes are booted first
         $this->translator->addNamespace('paginateroute', __DIR__.'/../resources/lang');
@@ -56,14 +56,12 @@ class PaginateRoute
     }
 
     /**
-     * Register the Route::paginate macro
-     * 
-     * @return void
+     * Register the Route::paginate macro.
      */
     public function registerMacros()
     {
         $pageName = $this->pageName;
-        $router   = $this->router;
+        $router = $this->router;
 
         $router->macro('paginate', function ($uri, $action) use ($pageName, $router) {
             $router->group(
@@ -76,24 +74,26 @@ class PaginateRoute
     }
 
     /**
-     * Get the next page number
-     * 
-     * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
+     * Get the next page number.
+     *
+     * @param \Illuminate\Contracts\Pagination\Paginator $paginator
+     *
      * @return string|null
      */
     public function nextPage(Paginator $paginator)
     {
         if (!$paginator->hasMorePages()) {
-            return null;
+            return;
         }
 
         return $this->router->getCurrentRoute()->parameter('page', 1) + 1;
     }
 
     /**
-     * Determine wether there is a next page
-     * 
-     * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
+     * Determine wether there is a next page.
+     *
+     * @param \Illuminate\Contracts\Pagination\Paginator $paginator
+     *
      * @return bool
      */
     public function hasNextPage(Paginator $paginator)
@@ -102,9 +102,10 @@ class PaginateRoute
     }
 
     /**
-     * Get the next page url
-     * 
-     * @param  \Illuminate\Contracts\Pagination\Paginator $paginator
+     * Get the next page url.
+     *
+     * @param \Illuminate\Contracts\Pagination\Paginator $paginator
+     *
      * @return string|null
      */
     public function nextPageUrl(Paginator $paginator)
@@ -112,29 +113,29 @@ class PaginateRoute
         $nextPage = $this->nextPage($paginator);
 
         if ($nextPage === null) {
-            return null;
+            return;
         }
-        
+
         return $this->generatePageUrl($nextPage);
     }
 
     /**
-     * Get the previous page number
-     * 
+     * Get the previous page number.
+     *
      * @return string|null
      */
     public function previousPage()
     {
         if ($this->router->getCurrentRoute()->parameter('page') <= 1) {
-            return null;
+            return;
         }
 
         return $this->router->getCurrentRoute()->parameter('page') - 1;
     }
 
     /**
-     * Determine wether there is a previous page
-     * 
+     * Determine wether there is a previous page.
+     *
      * @return bool
      */
     public function hasPreviousPage()
@@ -143,10 +144,11 @@ class PaginateRoute
     }
 
     /**
-     * Get the previous page url
-     * 
-     * @param  bool $full  Return the full version of the url in for the first page
-     *                     Ex. /users/page/1 instead of /users
+     * Get the previous page url.
+     *
+     * @param bool $full Return the full version of the url in for the first page
+     *                   Ex. /users/page/1 instead of /users
+     *
      * @return string|null
      */
     public function previousPageUrl($full = false)
@@ -154,18 +156,19 @@ class PaginateRoute
         $previousPage = $this->previousPage();
 
         if ($previousPage === null) {
-            return null;
+            return;
         }
 
-        return $this->generatePageUrl($previousPage);
+        return $this->generatePageUrl($previousPage, $full);
     }
 
     /**
-     * Get all urls in an array
-     * 
-     * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param  bool $full Return the full version of the url in for the first page
-     *                    Ex. /users/page/1 instead of /users
+     * Get all urls in an array.
+     *
+     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+     * @param bool $full Return the full version of the url in for the first page
+     *                   Ex. /users/page/1 instead of /users
+     *
      * @return array
      */
     public function allUrls(LengthAwarePaginator $paginator, $full = false)
@@ -176,7 +179,7 @@ class PaginateRoute
 
         $urls = [];
 
-        for ($page = 1; $page <= $paginator->lastPage(); $page++) {
+        for ($page = 1; $page <= $paginator->lastPage(); ++$page) {
             $urls[] = $this->generatePageUrl($page, $full);
         }
 
@@ -185,10 +188,11 @@ class PaginateRoute
 
     /**
      * Render a plain html list with all urls. The current page gets a current class on the list item.
-     * 
-     * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param  bool $full Return the full version of the url in for the first page
-     *                    Ex. /users/page/1 instead of /users
+     *
+     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+     * @param bool $full Return the full version of the url in for the first page
+     *                   Ex. /users/page/1 instead of /users
+     *
      * @return string
      */
     public function renderHtml(LengthAwarePaginator $paginator, $full = false)
@@ -200,13 +204,13 @@ class PaginateRoute
         $listItems = '<ul>';
 
         foreach ($urls as $i => $url) {
-            if ($i+1 === $current) {
+            if ($i + 1 === $current) {
                 $listItems .= '<li class="active">';
             } else {
                 $listItems .= '<li>';
             }
 
-            $listItems .= '<a href="'.$url.'">'.($i+1).'</a></li>';
+            $listItems .= '<a href="'.$url.'">'.($i + 1).'</a></li>';
         }
 
         $listItems .= '</ul>';
@@ -216,16 +220,17 @@ class PaginateRoute
 
     /**
      * Generate a page url, based on the request's current url.
-     * 
-     * @param  int $page
-     * @param  bool $full Return the full version of the url in for the first page
-     *                    Ex. /users/page/1 instead of /users
+     *
+     * @param int  $page
+     * @param bool $full Return the full version of the url in for the first page
+     *                   Ex. /users/page/1 instead of /users
+     *
      * @return string
      */
     public function generatePageUrl($page, $full = false)
     {
         $currentPageUrl = $this->router->getCurrentRoute()->getUri();
-        
+
         // If the page key isn't in the url, we're on the index page
         if ($this->getUrlSegment($currentPageUrl, -2) !== $this->pageName) {
             $baseUrl = trim($currentPageUrl, '/');
@@ -243,8 +248,9 @@ class PaginateRoute
     }
 
     /**
-     * @param  string $uri
-     * @param  int $index
+     * @param string $uri
+     * @param int    $index
+     *
      * @return string
      */
     protected function getUrlSegment($uri, $index)
