@@ -213,6 +213,20 @@ class PaginateRoute
     }
 
     /**
+     * @deprecated in favor of renderPageList.
+     *
+     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+     * @param bool $full Return the full version of the url in for the first page
+     *                   Ex. /users/page/1 instead of /users
+     *
+     * @return string
+     */
+    public function renderHtml(LengthAwarePaginator $paginator, $full = false)
+    {
+        return $this->renderPageList($paginator, $full);
+    }
+
+    /**
      * Generate a page url, based on the request's current url.
      *
      * @param int  $page

@@ -2,8 +2,8 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
-## 2.0.0
-- Changed: renderHtml is now renderPageList
+## 1.6.0
+- renderHtml is deprecated in favor of renderPageList
 - Added: More languages
 - Some big internal refectors
 
