@@ -5,7 +5,6 @@ namespace Spatie\PaginateRoute;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Translation\Translator;
 
@@ -22,11 +21,6 @@ class PaginateRoute
     protected $router;
 
     /**
-     * @var \Illuminate\Http\Request
-     */
-    protected $request;
-
-    /**
      * @var \Illuminate\Contracts\Routing\UrlGenerator
      */
     protected $urlGenerator;
@@ -39,14 +33,12 @@ class PaginateRoute
     /**
      * @param \Illuminate\Translation\Translator         $translator
      * @param \Illuminate\Routing\Router                 $router
-     * @param \Illuminate\Http\Request                   $request
      * @param \Illuminate\Contracts\Routing\UrlGenerator $urlGenerator
      */
-    public function __construct(Translator $translator, Router $router, Request $request, UrlGenerator $urlGenerator)
+    public function __construct(Translator $translator, Router $router, UrlGenerator $urlGenerator)
     {
         $this->translator = $translator;
         $this->router = $router;
-        $this->request = $request;
         $this->urlGenerator = $urlGenerator;
 
         // Unfortunately we can't do this in the service provider since routes are booted first
@@ -56,21 +48,25 @@ class PaginateRoute
     }
 
     /**
-     * Register the Route::paginate macro.
+     * Return the current page.
+     * 
+     * @return int
      */
-    public function registerMacros()
+    public function currentPage()
     {
-        $pageName = $this->pageName;
-        $router = $this->router;
+        return (int) $this->router->getCurrentRoute()->parameter('page', 1);
+    }
 
-        $router->macro('paginate', function ($uri, $action) use ($pageName, $router) {
-            $router->group(
-                ['middleware' => 'Spatie\PaginateRoute\SetPageMiddleware'],
-                function () use ($pageName, $router, $uri, $action) {
-                    $router->get($uri.'/'.$pageName.'/{page}', $action)->where('page', '[0-9]+');
-                    $router->get($uri, $action);
-                });
-        });
+    /**
+     * Check if the given page is the current page.
+     * 
+     * @param int $page
+     * 
+     * @return bool
+     */
+    public function isCurrentPage($page)
+    {
+        return $this->currentPage() === $page;
     }
 
     /**
@@ -86,7 +82,7 @@ class PaginateRoute
             return;
         }
 
-        return $this->router->getCurrentRoute()->parameter('page', 1) + 1;
+        return $this->currentPage() + 1;
     }
 
     /**
@@ -126,11 +122,11 @@ class PaginateRoute
      */
     public function previousPage()
     {
-        if ($this->router->getCurrentRoute()->parameter('page') <= 1) {
+        if ($this->currentPage() <= 1) {
             return;
         }
 
-        return $this->router->getCurrentRoute()->parameter('page') - 1;
+        return $this->currentPage() - 1;
     }
 
     /**
@@ -195,16 +191,14 @@ class PaginateRoute
      *
      * @return string
      */
-    public function renderHtml(LengthAwarePaginator $paginator, $full = false)
+    public function renderPageList(LengthAwarePaginator $paginator, $full = false)
     {
         $urls = $this->allUrls($paginator, $full);
-
-        $current = (int) $this->router->getCurrentRoute()->getParameter('page') ?: 1;
 
         $listItems = '<ul>';
 
         foreach ($urls as $i => $url) {
-            if ($i + 1 === $current) {
+            if ($i + 1 === $this->currentPage()) {
                 $listItems .= '<li class="active">';
             } else {
                 $listItems .= '<li>';
@@ -245,6 +239,24 @@ class PaginateRoute
         }
 
         return $this->urlGenerator->to($newPageUrl);
+    }
+
+    /**
+     * Register the Route::paginate macro.
+     */
+    public function registerMacros()
+    {
+        $pageName = $this->pageName;
+        $router = $this->router;
+
+        $router->macro('paginate', function ($uri, $action) use ($pageName, $router) {
+            $router->group(
+                ['middleware' => 'Spatie\PaginateRoute\SetPageMiddleware'],
+                function () use ($pageName, $router, $uri, $action) {
+                    $router->get($uri.'/'.$pageName.'/{page}', $action)->where('page', '[0-9]+');
+                    $router->get($uri, $action);
+                });
+        });
     }
 
     /**

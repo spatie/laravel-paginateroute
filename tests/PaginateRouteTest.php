@@ -162,7 +162,7 @@ class PaginateRouteTest extends TestCase
             $paginateRoute = $this->app['paginateroute'];
 
             return [
-                'list' => $this->app['paginateroute']->renderHtml($dummies),
+                'list' => $this->app['paginateroute']->renderPageList($dummies),
             ];
         });
 
