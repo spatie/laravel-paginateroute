@@ -1,6 +1,11 @@
 # Changelog
 
-All Notable changes to `spatie/laravel-paginateroute` will be documented in this file
+All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
+
+## 2.0.0
+- Changed: renderHtml is now renderPageList
+- Added: More languages
+- Some big internal refectors
 
 ## 1.5.0
 - Added: allUrls function

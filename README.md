@@ -144,6 +144,8 @@ public function previousPageUrl($full = false)
 
 If `$full` is true, the first page will be a fully qualified url. Ex. `/users/page/1` instead if just `/users` (this is the default).
 
+You can also retreive an array with all available urls. These can be rendered as a plain html list with page numbers. Note that these functions require a `LengthAwarePaginator`.
+
 ```php
 /**
  * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
@@ -153,15 +155,23 @@ If `$full` is true, the first page will be a fully qualified url. Ex. `/users/pa
 public function allUrls(LengthAwarePaginator $paginator, $full = false)
 ```
 
-Retrieve an array with all available urls. You can also render these as a plain html list. Note that these functions require a `LengthAwarePaginator`.
-
 ```php
 /**
  * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
  * @param  bool $full
  * @return string
  */
-public function renderHtml(LengthAwarePaginator $paginator, $full = false)
+public function renderPageList(LengthAwarePaginator $paginator, $full = false)
+```
+
+```html
+<!-- Example output: -->
+<ul>
+    <li><a href="http://example.com/news">1</a></li>
+    <li><a href="http://example.com/news/page/2">2</a></li>
+    <li class="active"><a href="http://example.com/news/page/3">3</a></li>
+    <li><a href="http://example.com/news/page/4">4</a></li>
+</ul>
 ```
 
 ## Tests
