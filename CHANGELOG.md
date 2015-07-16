@@ -2,10 +2,13 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 1.6.1
+- Bugfix: Url's can now be correcly generated via laravel's `action()` method
+
 ## 1.6.0
 - renderHtml is deprecated in favor of renderPageList
 - Added: More languages
-- Some big internal refectors
+- Some big internal refactors
 
 ## 1.5.0
 - Added: allUrls function
