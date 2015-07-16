@@ -267,8 +267,8 @@ class PaginateRoute
             $router->group(
                 ['middleware' => 'Spatie\PaginateRoute\SetPageMiddleware'],
                 function () use ($pageName, $router, $uri, $action) {
-                    $router->get($uri.'/'.$pageName.'/{page}', $action)->where('page', '[0-9]+');
                     $router->get($uri, $action);
+                    $router->get($uri.'/'.$pageName.'/{page}', $action)->where('page', '[0-9]+');
                 });
         });
     }
