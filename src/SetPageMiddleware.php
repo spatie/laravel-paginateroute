@@ -15,10 +15,8 @@ class SetPageMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $page = Route::getCurrentRoute()->parameter('page', 1);
-
-        Paginator::currentPageResolver(function () use ($page) {
-            return $page;
+        Paginator::currentPageResolver(function () {
+            return app('paginateroute')->currentPage();
         });
 
         return $next($request);

@@ -80,11 +80,11 @@ abstract class TestCase extends Orchestra
             $paginateRoute = $this->app['paginateroute'];
 
             return [
+                'nextPageUrl' => $this->app['paginateroute']->nextPageUrl($dummies),
                 'hasPrevious' => $this->app['paginateroute']->hasPreviousPage(),
                 'previousPageUrl' => $this->app['paginateroute']->previousPageUrl(),
                 'models' => $dummies->toArray(),
                 'hasNext' => $this->app['paginateroute']->hasNextPage($dummies),
-                'nextPageUrl' => $this->app['paginateroute']->nextPageUrl($dummies),
             ];
         });
     }

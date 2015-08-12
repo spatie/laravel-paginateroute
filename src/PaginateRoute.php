@@ -28,7 +28,7 @@ class PaginateRoute
     /**
      * @var string
      */
-    protected $pageName;
+    protected $pageKeyword;
 
     /**
      * @param \Illuminate\Translation\Translator         $translator
@@ -44,7 +44,7 @@ class PaginateRoute
         // Unfortunately we can't do this in the service provider since routes are booted first
         $this->translator->addNamespace('paginateroute', __DIR__.'/../resources/lang');
 
-        $this->pageName = $this->translator->get('paginateroute::paginateroute.page');
+        $this->pageKeyword = $this->translator->get('paginateroute::paginateroute.page');
     }
 
     /**
@@ -54,7 +54,9 @@ class PaginateRoute
      */
     public function currentPage()
     {
-        return (int) $this->router->getCurrentRoute()->parameter('page', 1);
+        $query = $this->router->getCurrentRoute()->parameter('pageQuery');
+
+        return (int) str_replace($this->pageKeyword.'/', '', $query) ?: 1;
     }
 
     /**
@@ -112,7 +114,7 @@ class PaginateRoute
             return;
         }
 
-        return $this->generatePageUrl($nextPage);
+        return $this->pageUrl($nextPage);
     }
 
     /**
@@ -155,7 +157,7 @@ class PaginateRoute
             return;
         }
 
-        return $this->generatePageUrl($previousPage, $full);
+        return $this->pageUrl($previousPage, $full);
     }
 
     /**
@@ -176,7 +178,7 @@ class PaginateRoute
         $urls = [];
 
         for ($page = 1; $page <= $paginator->lastPage(); ++$page) {
-            $urls[] = $this->generatePageUrl($page, $full);
+            $urls[] = $this->pageUrl($page, $full);
         }
 
         return $urls;
@@ -235,24 +237,19 @@ class PaginateRoute
      *
      * @return string
      */
-    public function generatePageUrl($page, $full = false)
+    public function pageUrl($page, $full = false)
     {
         $currentPageUrl = $this->router->getCurrentRoute()->getUri();
 
-        // If the page key isn't in the url, we're on the index page
-        if ($this->getUrlSegment($currentPageUrl, -2) !== $this->pageName) {
-            $baseUrl = trim($currentPageUrl, '/');
-        } else {
-            $baseUrl = trim(str_replace($this->pageName.'/{page}', '', $currentPageUrl), '/');
-        }
-
         if ($page === 1 && !$full) {
-            $newPageUrl = $baseUrl;
+            $pageQuery = '';
         } else {
-            $newPageUrl = $baseUrl.'/'.$this->pageName.'/'.$page;
+            $pageQuery = $this->pageKeyword.'/'.$page;
         }
 
-        return $this->urlGenerator->to($newPageUrl);
+        $url = trim(str_replace('{pageQuery?}', $pageQuery, $currentPageUrl), '/');
+
+        return $this->urlGenerator->to($url);
     }
 
     /**
@@ -260,36 +257,15 @@ class PaginateRoute
      */
     public function registerMacros()
     {
-        $pageName = $this->pageName;
+        $pageKeyword = $this->pageKeyword;
         $router = $this->router;
 
-        $router->macro('paginate', function ($uri, $action) use ($pageName, $router) {
+        $router->macro('paginate', function ($uri, $action) use ($pageKeyword, $router) {
             $router->group(
                 ['middleware' => 'Spatie\PaginateRoute\SetPageMiddleware'],
-                function () use ($pageName, $router, $uri, $action) {
-                    $router->get($uri, $action);
-                    $router->get($uri.'/'.$pageName.'/{page}', $action)->where('page', '[0-9]+');
+                function () use ($pageKeyword, $router, $uri, $action) {
+                    $router->get($uri.'/{pageQuery?}', $action)->where('pageQuery', $pageKeyword.'/[0-9]+');
                 });
         });
-    }
-
-    /**
-     * @param string $uri
-     * @param int    $index
-     *
-     * @return string
-     */
-    protected function getUrlSegment($uri, $index)
-    {
-        $segments = explode('/', $uri);
-
-        if ($index < 0) {
-            $segments = array_reverse($segments);
-            $index = abs($index) - 1;
-        }
-
-        $segment = isset($segments[$index]) ? $segments[$index] : '';
-
-        return $segment;
     }
 }

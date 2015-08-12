@@ -38,6 +38,7 @@ class PaginateRouteTest extends TestCase
 
     /**
      * @test
+     * @group foo
      */
     public function it_returns_the_second_page()
     {
