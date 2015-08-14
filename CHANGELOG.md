@@ -4,7 +4,7 @@ All Notable changes to `spatie/laravel-paginateroute` will be documented in this
 
 ## 2.0.0
 
-Please defer to the [upgrading section](README.md#upgrading) for more info.
+Please refer to the [upgrading section](README.md#upgrading) for more info.
 
 - Internal refactor that changes the generated routes from the `paginate` macro
 - Added: `addPageQuery` function
