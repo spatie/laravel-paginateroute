@@ -10,6 +10,8 @@ This package adds the `paginate` route method to support pagination via custom r
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
+**Note:** If you're upgrading to 2.0, check out the [upgrade guide](#upgrading) below.
+
 ## Install
 
 Via Composer
@@ -204,6 +206,14 @@ The package contains some integration/smoke tests, set up with Orchestra. The te
 ```
 $ phpunit
 ```
+
+## Upgrading
+
+### 1.x => 2.0
+
+The 2.0 release changes the route macro to only register one route with the entire query in it, so providing a page parameter to the action link is no longer possible.
+
+For example, `action('FooController@bar', ['page' => 3])` is no longer possible, and should be replaced by `PaginateRoute::addPageQuery(action('FooController@bar'), 3)`.
 
 ## Changelog
 

@@ -4,9 +4,10 @@ All Notable changes to `spatie/laravel-paginateroute` will be documented in this
 
 ## 2.0.0
 
-This release changes the route macro to only register one route with the entire query in it, so providing a page parameter to the action link is no longer possible.
+Please defer to the [upgrading section](README.md#upgrading) for more info.
 
-For example, `action('FooController@bar', ['page' => 3])` is no longer possible, and should be replaced by `PaginateRoute::addPageQuery(action('FooController@bar'), 3)`.
+- Internal refactor that changes the generated routes from the `paginate` macro
+- Added: `addPageQuery` function
 
 ## 1.6.1
 - Bugfix: Url's can now be correcly generated via laravel's `action()` method
