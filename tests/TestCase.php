@@ -21,7 +21,7 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->setUpDatabase($this->app);        
+        $this->setUpDatabase($this->app);
 
         $this->app['paginateroute']->registerMacros();
 
@@ -36,14 +36,12 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            'Spatie\PaginateRoute\PaginateRouteServiceProvider'
+            'Spatie\PaginateRoute\PaginateRouteServiceProvider',
         ];
     }
 
     /**
      * @param \Illuminate\Foundation\Application $app
-     * 
-     * @return void
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -68,14 +66,14 @@ abstract class TestCase extends Orchestra
             $table->string('name');
         });
 
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 20; ++$i) {
             Dummy::create(['name' => "Dummy {$i}"]);
         }
     }
 
     protected function registerDefaultRoute()
     {
-        $this->app['router']->paginate('dummies', function() {
+        $this->app['router']->paginate('dummies', function () {
             $dummies = Dummy::paginate(5);
             $paginateRoute = $this->app['paginateroute'];
 

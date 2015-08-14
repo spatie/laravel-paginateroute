@@ -126,7 +126,7 @@ class PaginateRouteTest extends TestCase
      */
     public function it_returns_all_urls()
     {
-        $this->app['router']->paginate('dummies', function() {
+        $this->app['router']->paginate('dummies', function () {
             $dummies = Dummy::paginate(5);
             $paginateRoute = $this->app['paginateroute'];
 
@@ -158,7 +158,7 @@ class PaginateRouteTest extends TestCase
      */
     public function it_renders_an_html_list()
     {
-        $this->app['router']->paginate('dummies', function() {
+        $this->app['router']->paginate('dummies', function () {
             $dummies = Dummy::paginate(5);
             $paginateRoute = $this->app['paginateroute'];
 

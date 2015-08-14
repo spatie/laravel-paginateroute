@@ -164,8 +164,8 @@ class PaginateRoute
      * Get all urls in an array.
      *
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param bool $full Return the full version of the URL in for the first page
-     *                   Ex. /users/page/1 instead of /users
+     * @param bool                                                  $full      Return the full version of the URL in for the first page
+     *                                                                         Ex. /users/page/1 instead of /users
      *
      * @return array
      */
@@ -188,8 +188,8 @@ class PaginateRoute
      * Render a plain html list with all URLs. The current page gets a current class on the list item.
      *
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param bool $full Return the full version of the URL in for the first page
-     *                   Ex. /users/page/1 instead of /users
+     * @param bool                                                  $full      Return the full version of the URL in for the first page
+     *                                                                         Ex. /users/page/1 instead of /users
      *
      * @return string
      */
@@ -218,8 +218,8 @@ class PaginateRoute
      * @deprecated in favor of renderPageList.
      *
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param bool $full Return the full version of the URL in for the first page
-     *                   Ex. /users/page/1 instead of /users
+     * @param bool                                                  $full      Return the full version of the URL in for the first page
+     *                                                                         Ex. /users/page/1 instead of /users
      *
      * @return string
      */
@@ -250,9 +250,9 @@ class PaginateRoute
      * Append the page query to a URL.
      * 
      * @param string $url
-     * @param int $page
-     * @param bool $full Return the full version of the URL in for the first page
-     *                   Ex. /users/page/1 instead of /users
+     * @param int    $page
+     * @param bool   $full Return the full version of the URL in for the first page
+     *                     Ex. /users/page/1 instead of /users
      * 
      * @return string
      */

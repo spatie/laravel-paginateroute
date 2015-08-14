@@ -27,7 +27,7 @@ class TranslationTest extends TestCase
     public function it_doesnt_accept_the_english_word_anymore_when_translated()
     {
         $this->registerDefaultRoute();
-        
+
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
 
         $this->call('GET', 'dummies/page/1')->status();

@@ -11,7 +11,7 @@ class AddPageQueryTest extends TestCase
     {
         $url = 'http://app.dev/blog';
 
-        for ($page = 2; $page <= 10; $page++) {
+        for ($page = 2; $page <= 10; ++$page) {
             $this->assertEquals("$url/page/{$page}", $this->app['paginateroute']->addPageQuery($url, $page));
         }
     }
