@@ -144,6 +144,15 @@ public function hasPreviousPage()
 public function previousPageUrl($full = false)
 ```
 
+```php
+/**
+ * @param int  $page
+ * @param bool $full
+ * @return string
+ */
+public function pageUrl($page, $full = false)
+```
+
 If `$full` is true, the first page will be a fully qualified url. Ex. `/users/page/1` instead if just `/users` (this is the default).
 
 You can also retreive an array with all available urls. These can be rendered as a plain html list with page numbers. Note that these functions require a `LengthAwarePaginator`.
