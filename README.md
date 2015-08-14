@@ -155,6 +155,18 @@ public function pageUrl($page, $full = false)
 
 If `$full` is true, the first page will be a fully qualified url. Ex. `/users/page/1` instead if just `/users` (this is the default).
 
+To retrieve the url of a specific page of a paginated route, that isn't the current route, there's the `addPageQuery` function.
+
+```php
+/**
+ * @param string $url
+ * @param int $page
+ * @param bool $full
+ * @return string
+ */
+public function addPageQuery($url, $page, $full = false)
+```
+
 You can also retreive an array with all available urls. These can be rendered as a plain html list with page numbers. Note that these functions require a `LengthAwarePaginator`.
 
 ```php
