@@ -100,7 +100,7 @@ class PaginateRoute
     }
 
     /**
-     * Get the next page url.
+     * Get the next page URL.
      *
      * @param \Illuminate\Contracts\Pagination\Paginator $paginator
      *
@@ -142,9 +142,9 @@ class PaginateRoute
     }
 
     /**
-     * Get the previous page url.
+     * Get the previous page URL.
      *
-     * @param bool $full Return the full version of the url in for the first page
+     * @param bool $full Return the full version of the URL in for the first page
      *                   Ex. /users/page/1 instead of /users
      *
      * @return string|null
@@ -164,7 +164,7 @@ class PaginateRoute
      * Get all urls in an array.
      *
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param bool $full Return the full version of the url in for the first page
+     * @param bool $full Return the full version of the URL in for the first page
      *                   Ex. /users/page/1 instead of /users
      *
      * @return array
@@ -185,10 +185,10 @@ class PaginateRoute
     }
 
     /**
-     * Render a plain html list with all urls. The current page gets a current class on the list item.
+     * Render a plain html list with all URLs. The current page gets a current class on the list item.
      *
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param bool $full Return the full version of the url in for the first page
+     * @param bool $full Return the full version of the URL in for the first page
      *                   Ex. /users/page/1 instead of /users
      *
      * @return string
@@ -218,7 +218,7 @@ class PaginateRoute
      * @deprecated in favor of renderPageList.
      *
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param bool $full Return the full version of the url in for the first page
+     * @param bool $full Return the full version of the URL in for the first page
      *                   Ex. /users/page/1 instead of /users
      *
      * @return string
@@ -229,10 +229,10 @@ class PaginateRoute
     }
 
     /**
-     * Generate a page url, based on the request's current url.
+     * Generate a page URL, based on the request's current URL.
      *
      * @param int  $page
-     * @param bool $full Return the full version of the url in for the first page
+     * @param bool $full Return the full version of the URL in for the first page
      *                   Ex. /users/page/1 instead of /users
      *
      * @return string
@@ -241,15 +241,29 @@ class PaginateRoute
     {
         $currentPageUrl = $this->router->getCurrentRoute()->getUri();
 
-        if ($page === 1 && !$full) {
-            $pageQuery = '';
-        } else {
-            $pageQuery = $this->pageKeyword.'/'.$page;
-        }
-
-        $url = trim(str_replace('{pageQuery?}', $pageQuery, $currentPageUrl), '/');
+        $url = $this->addPageQuery(str_replace('{pageQuery?}', '', $currentPageUrl), $page, $full);
 
         return $this->urlGenerator->to($url);
+    }
+
+    /**
+     * Append the page query to a URL.
+     * 
+     * @param string $url
+     * @param int $page
+     * @param bool $full Return the full version of the URL in for the first page
+     *                   Ex. /users/page/1 instead of /users
+     * 
+     * @return string
+     */
+    public function addPageQuery($url, $page, $full = false)
+    {
+        // If the first page's URL is requested and $full is set to false, there's nothing to be added.
+        if ($page === 1 && !$full) {
+            return $url;
+        }
+
+        return trim($url, '/')."/{$this->pageKeyword}/{$page}";
     }
 
     /**
