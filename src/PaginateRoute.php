@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace Spatie\PaginateRoute;
 
 use Illuminate\Contracts\Pagination\Paginator;
@@ -209,7 +211,7 @@ class PaginateRoute
             $listItems .= '<a href="'.$url.'">'.($i + 1).'</a></li>';
         }
 
-        $listItems .= '</ul>';
+        $listItems2 .= '</ul>';
 
         return $listItems;
     }
