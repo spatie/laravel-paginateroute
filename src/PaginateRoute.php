@@ -243,8 +243,8 @@ class PaginateRoute
 
         $url = $this->addPageQuery(str_replace('{pageQuery?}', '', $currentPageUrl), $page, $full);
 
-        foreach($this->router->getCurrentRoute()->bindParameters(request()) as $parameterName => $parameterValue) {
-            $url = str_replace(['{' . $parameterName .'}', '{' . $parameterName .'?}'], $parameterValue, $url);
+        foreach ($this->router->getCurrentRoute()->bindParameters(request()) as $parameterName => $parameterValue) {
+            $url = str_replace(['{'.$parameterName.'}', '{'.$parameterName.'?}'], $parameterValue, $url);
         }
 
         return $this->urlGenerator->to($url);
