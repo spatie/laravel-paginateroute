@@ -2,7 +2,13 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.0.2
+- Bugfix: fix the Laravel 5.0 bug introduced in 2.0.1
+
 ## 2.0.1
+
+IMPORTANT: This version contains a bug that'll break Laravel 5.0 apps
+
 - Bugfix: routes with parameters will now render correctly
 
 ## 2.0.0
