@@ -49,7 +49,7 @@ class PaginateRoute
 
     /**
      * Return the current page.
-     * 
+     *
      * @return int
      */
     public function currentPage()
@@ -61,9 +61,9 @@ class PaginateRoute
 
     /**
      * Check if the given page is the current page.
-     * 
+     *
      * @param int $page
-     * 
+     *
      * @return bool
      */
     public function isCurrentPage($page)
@@ -243,17 +243,21 @@ class PaginateRoute
 
         $url = $this->addPageQuery(str_replace('{pageQuery?}', '', $currentPageUrl), $page, $full);
 
+        foreach($this->router->getCurrentRoute()->bindParameters(request()) as $parameterName => $parameterValue) {
+            $url = str_replace(['{' . $parameterName .'}', '{' . $parameterName .'?}'], $parameterValue, $url);
+        }
+
         return $this->urlGenerator->to($url);
     }
 
     /**
      * Append the page query to a URL.
-     * 
+     *
      * @param string $url
      * @param int    $page
      * @param bool   $full Return the full version of the URL in for the first page
      *                     Ex. /users/page/1 instead of /users
-     * 
+     *
      * @return string
      */
     public function addPageQuery($url, $page, $full = false)

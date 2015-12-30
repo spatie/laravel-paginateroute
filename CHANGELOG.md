@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.0.1
+- Bugfix: routes with parameters will now render correctly
+
 ## 2.0.0
 
 Please refer to the [upgrading section](README.md#upgrading) for more info.
