@@ -197,21 +197,54 @@ class PaginateRoute
     {
         $urls = $this->allUrls($paginator, $full);
 
-        $listItems = '<ul>';
+        $listItems = "<ul>";
 
         foreach ($urls as $i => $url) {
-            if ($i + 1 === $this->currentPage()) {
-                $listItems .= '<li class="active">';
-            } else {
-                $listItems .= '<li>';
+
+            $pageNum = $i + 1;
+            $css = '';
+
+            if ($pageNum == $this->currentPage()) {
+                $css = " class='active'";
             }
 
-            $listItems .= '<a href="'.$url.'">'.($i + 1).'</a></li>';
+            $listItems .= "<li{$css}><a href='{$url}'>{$pageNum}</a></li>";
         }
 
-        $listItems .= '</ul>';
-
+        $listItems .= "</ul>";
         return $listItems;
+    }
+
+    /**
+     * Render html link tags for SEO indication of previous and next page.
+     *
+     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+     * @param bool                                                  $full       Return the full version of the URL in for the first page
+     *                                                                          Ex. /users/page/1 instead of /users
+     *
+     * @return string
+     */
+    public function renderRelLinks(LengthAwarePaginator $paginator, $full = false)
+    {
+        $urls = $this->allUrls($paginator, $full);
+
+        $linkItems = "";
+
+        foreach ($urls as $i => $url) {
+
+            $pageNum = $i + 1;
+
+            switch ($pageNum - $this->currentPage()) {
+                case -1:
+                    $linkItems .= "<link rel='prev' href='{$url}' />";
+                    break;
+                case 1:
+                    $linkItems .= "<link rel='next' href='{$url}' />";
+                    break;
+            }
+        }
+
+        return $linkItems;
     }
 
     /**
