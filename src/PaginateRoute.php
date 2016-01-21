@@ -205,10 +205,10 @@ class PaginateRoute
             $css = '';
 
             if ($pageNum == $this->currentPage()) {
-                $css = " class='active'";
+                $css = " class=\"active\"";
             }
 
-            $listItems .= "<li{$css}><a href='{$url}'>{$pageNum}</a></li>";
+            $listItems .= "<li{$css}><a href=\"{$url}\">{$pageNum}</a></li>";
         }
 
         $listItems .= "</ul>";
@@ -236,10 +236,10 @@ class PaginateRoute
 
             switch ($pageNum - $this->currentPage()) {
                 case -1:
-                    $linkItems .= "<link rel='prev' href='{$url}' />";
+                    $linkItems .= "<link rel=\"prev\" href=\"{$url}\" />";
                     break;
                 case 1:
-                    $linkItems .= "<link rel='next' href='{$url}' />";
+                    $linkItems .= "<link rel=\"next\" href=\"{$url}\" />";
                     break;
             }
         }
