@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.1.0
+- Feature: added `renderRelLink()`
+
 ## 2.0.2
 - Bugfix: fix the Laravel 5.0 bug introduced in 2.0.1
 
