@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.0.3
+- Added: Possible add class in pagination list and display prev and next links.
+
 ## 2.0.2
 - Bugfix: fix the Laravel 5.0 bug introduced in 2.0.1
 

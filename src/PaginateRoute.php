@@ -185,32 +185,48 @@ class PaginateRoute
     }
 
     /**
-     * Render a plain html list with all URLs. The current page gets a current class on the list item.
+     * Render a plain html list with previous, next and all urls. The current page gets a current class on the list item.
      *
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @param bool                                                  $full      Return the full version of the URL in for the first page
-     *                                                                         Ex. /users/page/1 instead of /users
+     * @param bool                                                  $full              Return the full version of the URL in for the first page
+     *                                                                                 Ex. /users/page/1 instead of /users
+     * @param string                                                $class             Include class on pagination list
+     *                                                                                 Ex. <ul class="pagination">
+     * @param bool                                                  $additionalLinks   Include prev and next links on pagination list
      *
      * @return string
      */
-    public function renderPageList(LengthAwarePaginator $paginator, $full = false)
+    public function renderPageList(LengthAwarePaginator $paginator, $full = false, $class = null, $additionalLinks = false)
     {
         $urls = $this->allUrls($paginator, $full);
 
-        $listItems = '<ul>';
-
-        foreach ($urls as $i => $url) {
-            if ($i + 1 === $this->currentPage()) {
-                $listItems .= '<li class="active">';
-            } else {
-                $listItems .= '<li>';
-            }
-
-            $listItems .= '<a href="'.$url.'">'.($i + 1).'</a></li>';
+        if ($class) {
+            $class = " class=\"$class\"";
         }
 
-        $listItems .= '</ul>';
+        $listItems = "<ul{$class}>";
 
+        if($this->hasPreviousPage() && $additionalLinks) {
+            $listItems .= "<li><a href=\"{$this->previousPageUrl()}\">&laquo;</a></li>";
+        }
+
+        foreach ($urls as $i => $url) {
+
+            $pageNum = $i + 1;
+            $css = '';
+
+            if ($pageNum == $this->currentPage()) {
+                $css = " class=\"active\"";
+            }
+
+            $listItems .= "<li{$css}><a href=\"{$url}\">{$pageNum}</a></li>";
+        }
+
+        if($this->hasNextPage($paginator) && $additionalLinks) {
+            $listItems .= "<li><a href=\"{$this->nextPageUrl($paginator)}\">&raquo;</a></li>";
+        }
+
+        $listItems .= "</ul>";
         return $listItems;
     }
 

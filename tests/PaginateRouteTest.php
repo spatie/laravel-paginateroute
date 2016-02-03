@@ -164,6 +164,7 @@ class PaginateRouteTest extends TestCase
 
             return [
                 'list' => $this->app['paginateroute']->renderPageList($dummies),
+                'listClass' => $this->app['paginateroute']->renderPageList($dummies, false, 'pagination')
             ];
         });
 
@@ -178,5 +179,7 @@ class PaginateRouteTest extends TestCase
         $expectedForSecondPage = '<ul><li><a href="http://localhost/dummies">1</a></li><li class="active"><a href="http://localhost/dummies/page/2">2</a></li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
 
         $this->assertEquals($expectedForSecondPage, $secondPage['list']);
+
+        $expectedForFirstPageWithClass = '<ul class="pagination"><li class="active"><a href="http://localhost/dummies">1</a></li><li><a href="http://localhost/dummies/page/2">2</a></li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
     }
 }

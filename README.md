@@ -184,18 +184,21 @@ public function allUrls(LengthAwarePaginator $paginator, $full = false)
 /**
  * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
  * @param  bool $full
+ * @param  string $class
+ * @param  bool $additionalLinks
  * @return string
  */
-public function renderPageList(LengthAwarePaginator $paginator, $full = false)
+public function renderPageList(LengthAwarePaginator $paginator, $full = false, $class = null, $additionalLinks = false)
 ```
 
 ```html
 <!-- Example output: -->
-<ul>
+<ul class="pagination">
     <li><a href="http://example.com/news">1</a></li>
     <li><a href="http://example.com/news/page/2">2</a></li>
     <li class="active"><a href="http://example.com/news/page/3">3</a></li>
     <li><a href="http://example.com/news/page/4">4</a></li>
+    <li><a href="http://example.com/news/page/5">&raquo;</a></li>
 </ul>
 ```
 
