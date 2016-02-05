@@ -2,8 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
-## 2.1.1
-- Added: Possible add class in pagination list and display prev and next links.
+## 2.2.0
+- Added: Ability to add classes to pagination list items
+- Added: Ability to render next/previous links alongside pagination lists
 
 ## 2.1.0
 - Feature: added `renderRelLink()`
