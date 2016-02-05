@@ -200,7 +200,6 @@ class PaginateRoute
     {
         $urls = $this->allUrls($paginator, $full);
 
-<<<<<<< HEAD
         if ($class) {
             $class = " class=\"$class\"";
         }
@@ -210,9 +209,6 @@ class PaginateRoute
         if($this->hasPreviousPage() && $additionalLinks) {
             $listItems .= "<li><a href=\"{$this->previousPageUrl()}\">&laquo;</a></li>";
         }
-=======
-        $listItems = "<ul>";
->>>>>>> 16912874a63246995583f7c019be84d82b321c1d
 
         foreach ($urls as $i => $url) {
 
@@ -226,13 +222,10 @@ class PaginateRoute
             $listItems .= "<li{$css}><a href=\"{$url}\">{$pageNum}</a></li>";
         }
 
-<<<<<<< HEAD
         if($this->hasNextPage($paginator) && $additionalLinks) {
             $listItems .= "<li><a href=\"{$this->nextPageUrl($paginator)}\">&raquo;</a></li>";
         }
 
-=======
->>>>>>> 16912874a63246995583f7c019be84d82b321c1d
         $listItems .= "</ul>";
         return $listItems;
     }
