@@ -169,7 +169,7 @@ To retrieve the url of a specific page of a paginated route, that isn't the curr
 public function addPageQuery($url, $page, $full = false)
 ```
 
-You can also retreive an array with all available urls. These can be rendered as a plain html list with page numbers. Note that these functions require a `LengthAwarePaginator`.
+You can also retrieve an array with all available urls. These can be rendered as a plain html list with page numbers. Note that these functions require a `LengthAwarePaginator`.
 
 ```php
 /**
@@ -198,8 +198,25 @@ public function renderPageList(LengthAwarePaginator $paginator, $full = false, $
     <li><a href="http://example.com/news/page/2">2</a></li>
     <li class="active"><a href="http://example.com/news/page/3">3</a></li>
     <li><a href="http://example.com/news/page/4">4</a></li>
-    <li><a href="http://example.com/news/page/5">&raquo;</a></li>
+    <li><a href="http://example.com/news/page/4">&raquo;</a></li>
 </ul>
+```
+
+You can render link tags to mark previous and next page for SEO. Note that these functions require a `LengthAwarePaginator`.
+
+```php
+/**
+ * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+ * @param  bool $full
+ * @return string
+ */
+public function renderRelLinks(LengthAwarePaginator $paginator, $full = false)
+```
+
+```html
+<!-- Example output: -->
+<link rel="prev" href="http://example.com/news/page/2" />
+<link rel="next" href="http://example.com/news/page/4" />
 ```
 
 ## Tests

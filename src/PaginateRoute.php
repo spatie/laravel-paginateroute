@@ -200,6 +200,7 @@ class PaginateRoute
     {
         $urls = $this->allUrls($paginator, $full);
 
+<<<<<<< HEAD
         if ($class) {
             $class = " class=\"$class\"";
         }
@@ -209,6 +210,9 @@ class PaginateRoute
         if($this->hasPreviousPage() && $additionalLinks) {
             $listItems .= "<li><a href=\"{$this->previousPageUrl()}\">&laquo;</a></li>";
         }
+=======
+        $listItems = "<ul>";
+>>>>>>> 16912874a63246995583f7c019be84d82b321c1d
 
         foreach ($urls as $i => $url) {
 
@@ -222,12 +226,47 @@ class PaginateRoute
             $listItems .= "<li{$css}><a href=\"{$url}\">{$pageNum}</a></li>";
         }
 
+<<<<<<< HEAD
         if($this->hasNextPage($paginator) && $additionalLinks) {
             $listItems .= "<li><a href=\"{$this->nextPageUrl($paginator)}\">&raquo;</a></li>";
         }
 
+=======
+>>>>>>> 16912874a63246995583f7c019be84d82b321c1d
         $listItems .= "</ul>";
         return $listItems;
+    }
+
+    /**
+     * Render html link tags for SEO indication of previous and next page.
+     *
+     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+     * @param bool                                                  $full       Return the full version of the URL in for the first page
+     *                                                                          Ex. /users/page/1 instead of /users
+     *
+     * @return string
+     */
+    public function renderRelLinks(LengthAwarePaginator $paginator, $full = false)
+    {
+        $urls = $this->allUrls($paginator, $full);
+
+        $linkItems = "";
+
+        foreach ($urls as $i => $url) {
+
+            $pageNum = $i + 1;
+
+            switch ($pageNum - $this->currentPage()) {
+                case -1:
+                    $linkItems .= "<link rel=\"prev\" href=\"{$url}\" />";
+                    break;
+                case 1:
+                    $linkItems .= "<link rel=\"next\" href=\"{$url}\" />";
+                    break;
+            }
+        }
+
+        return $linkItems;
     }
 
     /**
