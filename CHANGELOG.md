@@ -2,7 +2,7 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
-## 2.2.1
+## 2.2.1 - 2016-05-05
 
 - Bugfix: make the package play nice in situations where a route could not be determined.
 
