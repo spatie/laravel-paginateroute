@@ -54,7 +54,13 @@ class PaginateRoute
      */
     public function currentPage()
     {
-        $query = $this->router->getCurrentRoute()->parameter('pageQuery');
+        $currentRoute = $this->router->getCurrentRoute();
+
+        if (! $currentRoute) {
+            return 1;
+        }
+
+        $query = $currentRoute->parameter('pageQuery');
 
         return (int) str_replace($this->pageKeyword.'/', '', $query) ?: 1;
     }

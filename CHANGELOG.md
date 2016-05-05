@@ -2,6 +2,10 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.2.1
+
+- Bugfix: make the package play nice in situations where a route could not be determined.
+
 ## 2.2.0
 - Added: Ability to add classes to pagination list items
 - Added: Ability to render next/previous links alongside pagination lists
