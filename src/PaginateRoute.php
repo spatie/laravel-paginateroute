@@ -2,11 +2,11 @@
 
 namespace Spatie\PaginateRoute;
 
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Routing\Router;
 use Illuminate\Translation\Translator;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PaginateRoute
 {
@@ -86,7 +86,7 @@ class PaginateRoute
      */
     public function nextPage(Paginator $paginator)
     {
-        if (!$paginator->hasMorePages()) {
+        if (! $paginator->hasMorePages()) {
             return;
         }
 
@@ -177,7 +177,7 @@ class PaginateRoute
      */
     public function allUrls(LengthAwarePaginator $paginator, $full = false)
     {
-        if (!$paginator->hasPages()) {
+        if (! $paginator->hasPages()) {
             return [];
         }
 
@@ -212,27 +212,27 @@ class PaginateRoute
 
         $listItems = "<ul{$class}>";
 
-        if($this->hasPreviousPage() && $additionalLinks) {
+        if ($this->hasPreviousPage() && $additionalLinks) {
             $listItems .= "<li><a href=\"{$this->previousPageUrl()}\">&laquo;</a></li>";
         }
 
         foreach ($urls as $i => $url) {
-
             $pageNum = $i + 1;
             $css = '';
 
             if ($pageNum == $this->currentPage()) {
-                $css = " class=\"active\"";
+                $css = ' class="active"';
             }
 
             $listItems .= "<li{$css}><a href=\"{$url}\">{$pageNum}</a></li>";
         }
 
-        if($this->hasNextPage($paginator) && $additionalLinks) {
+        if ($this->hasNextPage($paginator) && $additionalLinks) {
             $listItems .= "<li><a href=\"{$this->nextPageUrl($paginator)}\">&raquo;</a></li>";
         }
 
-        $listItems .= "</ul>";
+        $listItems .= '</ul>';
+
         return $listItems;
     }
 
@@ -249,10 +249,9 @@ class PaginateRoute
     {
         $urls = $this->allUrls($paginator, $full);
 
-        $linkItems = "";
+        $linkItems = '';
 
         foreach ($urls as $i => $url) {
-
             $pageNum = $i + 1;
 
             switch ($pageNum - $this->currentPage()) {
@@ -317,7 +316,7 @@ class PaginateRoute
     public function addPageQuery($url, $page, $full = false)
     {
         // If the first page's URL is requested and $full is set to false, there's nothing to be added.
-        if ($page === 1 && !$full) {
+        if ($page === 1 && ! $full) {
             return $url;
         }
 
