@@ -333,11 +333,15 @@ class PaginateRoute
         $router = $this->router;
 
         $router->macro('paginate', function ($uri, $action) use ($pageKeyword, $router) {
+            $route = null;
+
             $router->group(
                 ['middleware' => 'Spatie\PaginateRoute\SetPageMiddleware'],
-                function () use ($pageKeyword, $router, $uri, $action) {
-                    $router->get($uri.'/{pageQuery?}', $action)->where('pageQuery', $pageKeyword.'/[0-9]+');
+                function () use ($pageKeyword, $router, $uri, $action, &$route) {
+                    $route = $router->get($uri.'/{pageQuery?}', $action)->where('pageQuery', $pageKeyword.'/[0-9]+');
                 });
+
+            return $route;
         });
     }
 }
