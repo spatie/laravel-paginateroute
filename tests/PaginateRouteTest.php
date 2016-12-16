@@ -131,7 +131,7 @@ class PaginateRouteTest extends TestCase
             $paginateRoute = $this->app['paginateroute'];
 
             return [
-                'allUrls' => $this->app['paginateroute']->allUrls($dummies),
+                'allUrls'     => $this->app['paginateroute']->allUrls($dummies),
                 'allUrlsFull' => $this->app['paginateroute']->allUrls($dummies, true),
             ];
         });
@@ -163,8 +163,8 @@ class PaginateRouteTest extends TestCase
             $paginateRoute = $this->app['paginateroute'];
 
             return [
-                'list' => $this->app['paginateroute']->renderPageList($dummies),
-                'listClass' => $this->app['paginateroute']->renderPageList($dummies, false, 'pagination')
+                'list'      => $this->app['paginateroute']->renderPageList($dummies),
+                'listClass' => $this->app['paginateroute']->renderPageList($dummies, false, 'pagination'),
             ];
         });
 
