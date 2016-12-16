@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.3.0 - 2016-12-16
+- Return route from paginate macro to allow chaining
+
 ## 2.2.2 - 2016-05-20
 -  Bugfix: Fixed `it` lang file
 
