@@ -164,7 +164,7 @@ class PaginateRouteTest extends TestCase
 
             return [
                 'list' => $this->app['paginateroute']->renderPageList($dummies),
-                'listClass' => $this->app['paginateroute']->renderPageList($dummies, false, 'pagination')
+                'listClass' => $this->app['paginateroute']->renderPageList($dummies, false, 'pagination'),
             ];
         });
 
