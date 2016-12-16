@@ -89,7 +89,7 @@ abstract class TestCase extends Orchestra
 
     /**
      * @param string $route
-     * 
+     *
      * @return array
      */
     protected function callRoute($route)
