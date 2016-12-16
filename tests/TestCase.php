@@ -48,9 +48,9 @@ abstract class TestCase extends Orchestra
         $app['config']->set('app.locale', $this->locale);
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => __DIR__.'/database.sqlite',
-            'prefix' => '',
+            'prefix'   => '',
         ]);
     }
 
@@ -78,18 +78,18 @@ abstract class TestCase extends Orchestra
             $paginateRoute = $this->app['paginateroute'];
 
             return [
-                'nextPageUrl' => $this->app['paginateroute']->nextPageUrl($dummies),
-                'hasPrevious' => $this->app['paginateroute']->hasPreviousPage(),
+                'nextPageUrl'     => $this->app['paginateroute']->nextPageUrl($dummies),
+                'hasPrevious'     => $this->app['paginateroute']->hasPreviousPage(),
                 'previousPageUrl' => $this->app['paginateroute']->previousPageUrl(),
-                'models' => $dummies->toArray(),
-                'hasNext' => $this->app['paginateroute']->hasNextPage($dummies),
+                'models'          => $dummies->toArray(),
+                'hasNext'         => $this->app['paginateroute']->hasNextPage($dummies),
             ];
         });
     }
 
     /**
      * @param string $route
-     * 
+     *
      * @return array
      */
     protected function callRoute($route)
