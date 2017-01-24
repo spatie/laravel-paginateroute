@@ -28,8 +28,6 @@ class TranslationTest extends TestCase
     {
         $this->registerDefaultRoute();
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
-
-        $this->call('GET', 'dummies/page/1')->status();
+        $this->assertEquals(404, $this->call('GET', 'dummies/page/1')->status());
     }
 }
