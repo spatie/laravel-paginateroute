@@ -2,9 +2,9 @@
 
 namespace Spatie\PaginateRoute;
 
+use Route;
 use Closure;
 use Illuminate\Pagination\Paginator;
-use Route;
 
 class SetPageMiddleware
 {
