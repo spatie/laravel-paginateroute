@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.4.0 - 2016-01-27
+- Laravel 5.4 compatibility
+
 ## 2.3.0 - 2016-12-16
 - Return route from paginate macro to allow chaining
 
