@@ -3,6 +3,7 @@
 namespace Spatie\PaginateRoute;
 
 use Illuminate\Routing\Router;
+use Illuminate\Routing\RouteParameterBinder;
 use Illuminate\Translation\Translator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -292,11 +293,11 @@ class PaginateRoute
      */
     public function pageUrl($page, $full = false)
     {
-        $currentPageUrl = $this->router->getCurrentRoute()->getUri();
+        $currentPageUrl = $this->router->getCurrentRoute()->uri();
 
         $url = $this->addPageQuery(str_replace('{pageQuery?}', '', $currentPageUrl), $page, $full);
 
-        foreach ($this->router->getCurrentRoute()->bindParameters(app('request')) as $parameterName => $parameterValue) {
+        foreach ((new RouteParameterBinder($this->router->getCurrentRoute()))->parameters(app('request')) as $parameterName => $parameterValue) {
             $url = str_replace(['{'.$parameterName.'}', '{'.$parameterName.'?}'], $parameterValue, $url);
         }
 
