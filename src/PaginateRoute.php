@@ -3,8 +3,8 @@
 namespace Spatie\PaginateRoute;
 
 use Illuminate\Routing\Router;
-use Illuminate\Routing\RouteParameterBinder;
 use Illuminate\Translation\Translator;
+use Illuminate\Routing\RouteParameterBinder;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
