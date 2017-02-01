@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.4.1 - 2016-02-01
+- Laravel 5.4 fixes
+
 ## 2.4.0 - 2016-01-27
 - Laravel 5.4 compatibility
 
