@@ -1,11 +1,11 @@
 # Changelog
 
-All Notable changes to `spatie/laravel-paginateroute` will be documented in this file.
+All notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
-## 2.4.1 - 2016-02-01
+## 2.4.1 - 2017-02-01
 - Laravel 5.4 fixes
 
-## 2.4.0 - 2016-01-27
+## 2.4.0 - 2017-01-27
 - Laravel 5.4 compatibility
 
 ## 2.3.0 - 2016-12-16
