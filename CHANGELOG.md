@@ -2,6 +2,9 @@
 
 All notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.5.0 - 2017-05-15
+- add support for Arabic
+
 ## 2.4.1 - 2017-02-01
 - Laravel 5.4 fixes
 
