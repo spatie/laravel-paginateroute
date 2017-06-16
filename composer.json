@@ -41,6 +41,14 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Spatie\\PaginateRoute\\PaginateRouteServiceProvider"
+            ],
+            "aliases": {
+                "PaginateRoute": "Spatie\\PaginateRoute\\PaginateRouteFacade"
+            }
         }
     },
     "minimum-stability": "dev",
