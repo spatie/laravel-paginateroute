@@ -26,7 +26,7 @@
         "illuminate/contracts": "~5.4.0",
         "illuminate/routing": "~5.4.0",
         "illuminate/translation": "~5.4.0",
-        "orchestra/testbench": "^3.4|~3.5.x-dev"
+        "orchestra/testbench": "^3.4|~3.5.x-dev|~3.5.x-dev"
     },
     "autoload": {
         "psr-4": {
@@ -53,3 +53,4 @@
     },
     "prefer-stable": true
 }
+
