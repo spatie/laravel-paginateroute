@@ -14,6 +14,9 @@ class PaginateRouteServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/lang' => base_path('resources/lang/vendor/paginateroute'),
         ]);
+        $this->publishes([
+            __DIR__.'/../config/paginateroute.php' => config_path('paginateroute.php'),
+        ]);
     }
 
     /**
