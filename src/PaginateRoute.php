@@ -301,7 +301,9 @@ class PaginateRoute
             $url = str_replace(['{'.$parameterName.'}', '{'.$parameterName.'?}'], $parameterValue, $url);
         }
 
-        return $this->urlGenerator->to($url);
+        $query = \Request::getQueryString();
+
+        return $this->urlGenerator->to($url).($query ? '?'.$query : '');
     }
 
     /**

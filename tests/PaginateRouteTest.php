@@ -182,4 +182,20 @@ class PaginateRouteTest extends TestCase
 
         $expectedForFirstPageWithClass = '<ul class="pagination"><li class="active"><a href="http://localhost/dummies">1</a></li><li><a href="http://localhost/dummies/page/2">2</a></li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
     }
+
+    /** @test */
+    public function it_adds_query_string_to_page_urls()
+    {
+        $this->registerDefaultRoute();
+
+        $response = $this->callRoute('/page/2', ['test' => 123]);
+
+        $this->assertTrue($response['hasNext']);
+        $this->assertEquals($this->hostName.'/dummies/page/3?test=123', $response['nextPageUrl']);
+        $this->assertTrue($response['hasPrevious']);
+        $this->assertEquals($this->hostName.'/dummies?test=123', $response['previousPageUrl']);
+
+        $fullPreviousUrl = $this->app['paginateroute']->previousPageUrl(true);
+        $this->assertEquals($this->hostName.'/dummies/page/1?test=123', $fullPreviousUrl);
+    }
 }

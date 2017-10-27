@@ -89,11 +89,12 @@ abstract class TestCase extends Orchestra
 
     /**
      * @param string $route
+     * @param array $parameters
      *
      * @return array
      */
-    protected function callRoute($route)
+    protected function callRoute($route, array $parameters = [])
     {
-        return json_decode($this->call('GET', 'dummies'.$route)->getContent(), true);
+        return json_decode($this->call('GET', 'dummies'.$route, $parameters)->getContent(), true);
     }
 }
