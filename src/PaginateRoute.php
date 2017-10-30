@@ -8,6 +8,7 @@ use Illuminate\Routing\RouteParameterBinder;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Request;
 
 class PaginateRoute
 {
@@ -301,9 +302,11 @@ class PaginateRoute
             $url = str_replace(['{'.$parameterName.'}', '{'.$parameterName.'?}'], $parameterValue, $url);
         }
 
-        $query = \Request::getQueryString();
+        $query = Request::getQueryString();
 
-        return $this->urlGenerator->to($url).($query ? '?'.$query : '');
+        return $this->urlGenerator->to($url).$query
+            ? '?'.$query
+            : '';
     }
 
     /**

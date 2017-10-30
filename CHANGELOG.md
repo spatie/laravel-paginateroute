@@ -2,6 +2,9 @@
 
 All notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.6.0 - 2017-10-30
+- preserve query string on pagination urls
+
 ## 2.5.0 - 2017-05-15
 - add support for Arabic
 
