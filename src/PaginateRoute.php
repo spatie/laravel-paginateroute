@@ -305,7 +305,7 @@ class PaginateRoute
         $query = Request::getQueryString();
 
         $query = $query
-            ? '?' . $query
+            ? '?'.$query
             : '';
 
         return $this->urlGenerator->to($url).$query;
