@@ -2,7 +2,7 @@
 
 All notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
-## 2.6.1 - 2017-11-02
+## 2.6.2 - 2017-11-02
 - Fixed: `pageUrl` method query bug
 
 ## 2.6.0 - 2017-10-30
