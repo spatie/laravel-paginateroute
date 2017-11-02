@@ -2,11 +2,14 @@
 
 All notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.6.1 - 2017-11-02
+- Fixed: `pageUrl` method query bug
+
 ## 2.6.0 - 2017-10-30
-- preserve query string on pagination urls
+- Added: Preserve query string on pagination urls
 
 ## 2.5.0 - 2017-05-15
-- add support for Arabic
+- Added: Support for Arabic
 
 ## 2.4.1 - 2017-02-01
 - Laravel 5.4 fixes

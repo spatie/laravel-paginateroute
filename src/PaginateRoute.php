@@ -2,13 +2,13 @@
 
 namespace Spatie\PaginateRoute;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Translation\Translator;
 use Illuminate\Routing\RouteParameterBinder;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Request;
 
 class PaginateRoute
 {
@@ -304,9 +304,11 @@ class PaginateRoute
 
         $query = Request::getQueryString();
 
-        return $this->urlGenerator->to($url).$query
-            ? '?'.$query
+        $query = $query
+            ? '?' . $query
             : '';
+
+        return $this->urlGenerator->to($url).$query;
     }
 
     /**
