@@ -2,6 +2,9 @@
 
 All notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.6.3 - 2017-11-02
+- Fixed: Wrong `Request` facade import
+
 ## 2.6.2 - 2017-11-02
 - Fixed: `pageUrl` method query bug
 
