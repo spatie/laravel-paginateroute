@@ -2,13 +2,13 @@
 
 namespace Spatie\PaginateRoute;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Routing\Router;
+use Illuminate\Translation\Translator;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Routing\RouteParameterBinder;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Routing\RouteParameterBinder;
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Translation\Translator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PaginateRoute
 {
