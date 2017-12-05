@@ -185,7 +185,7 @@ class PaginateRoute
 
         $urls = [];
 
-        for ($page = 1; $page <= $paginator->lastPage(); ++$page) {
+        for ($page = 1; $page <= $paginator->lastPage(); $page++) {
             $urls[] = $this->pageUrl($page, $full);
         }
 
