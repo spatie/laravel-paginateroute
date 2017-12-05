@@ -54,11 +54,11 @@ use PaginateRoute;
 
 // ...
 
-public function boot(Router $router)
+public function boot()
 {
     PaginateRoute::registerMacros();
-    
-    parent::boot($router);
+
+    parent::boot();
 }
 ```
 
