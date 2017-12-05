@@ -66,7 +66,7 @@ abstract class TestCase extends Orchestra
             $table->string('name');
         });
 
-        for ($i = 1; $i <= 20; ++$i) {
+        for ($i = 1; $i <= 20; $i++) {
             Dummy::create(['name' => "Dummy {$i}"]);
         }
     }
