@@ -2,6 +2,9 @@
 
 All notable changes to `spatie/laravel-paginateroute` will be documented in this file.
 
+## 2.7.0
+- Added: Support for Persian
+
 ## 2.6.3 - 2017-11-02
 - Fixed: Wrong `Request` facade import
 
