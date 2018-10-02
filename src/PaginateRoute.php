@@ -196,6 +196,9 @@ class PaginateRoute
             }
             if ($total > $last) {
                 $total = $last;
+                if ($first > $side + 1) {
+                    $first -= $side;
+                }
             }
         }
         else {
