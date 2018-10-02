@@ -167,7 +167,6 @@ class PaginateRoute
 
         return $this->pageUrl($previousPage, $full);
     }
-
     /**
      * Get all urls in an array.
      *
@@ -184,8 +183,22 @@ class PaginateRoute
         }
 
         $urls = [];
-        $total = $paginator->currentPage() + $paginator->onEachSide;
-        for ($page = $paginator->currentPage(); $page <= $total; $page++) {
+        $side = $paginator->onEachSide;
+        $current = $paginator->currentPage();
+
+        if (!empty($side)) {
+            $total = $current + $side;
+            $first = $current - $side;
+            if ($first < 1) {
+                $first = 1;
+                $total += $side;
+            }
+        }
+        else {
+            $first = 1;
+            $total = $paginator->lastPage();
+        }
+        for ($page = $first; $page <= $total; $page++) {
             $urls[$page] = $this->pageUrl($page, $full);
         }
 
