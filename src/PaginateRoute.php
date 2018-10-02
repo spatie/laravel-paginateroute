@@ -185,6 +185,7 @@ class PaginateRoute
         $urls = [];
         $side = $paginator->onEachSide;
         $current = $paginator->currentPage();
+        $last = $paginator->lastPage();
 
         if (!empty($side)) {
             $total = $current + $side;
@@ -193,10 +194,13 @@ class PaginateRoute
                 $first = 1;
                 $total += $side;
             }
+            if ($total > $last) {
+                $total = $last;
+            }
         }
         else {
             $first = 1;
-            $total = $paginator->lastPage();
+            $total = $last;
         }
         for ($page = $first; $page <= $total; $page++) {
             $urls[$page] = $this->pageUrl($page, $full);
