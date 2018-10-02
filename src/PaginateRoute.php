@@ -184,9 +184,9 @@ class PaginateRoute
         }
 
         $urls = [];
-
-        for ($page = 1; $page <= $paginator->lastPage(); $page++) {
-            $urls[] = $this->pageUrl($page, $full);
+        $total = $paginator->currentPage() + $paginator->onEachSide;
+        for ($page = $paginator->currentPage(); $page <= $total; $page++) {
+            $urls[$page] = $this->pageUrl($page, $full);
         }
 
         return $urls;
@@ -219,14 +219,16 @@ class PaginateRoute
         }
 
         foreach ($urls as $i => $url) {
-            $pageNum = $i + 1;
+            $pageNum = $i;
             $css = '';
 
+            $link = "<a href=\"{$url}\">{$pageNum}</a>";
             if ($pageNum == $this->currentPage()) {
                 $css = ' class="active"';
+                $link = $pageNum;
             }
 
-            $listItems .= "<li{$css}><a href=\"{$url}\">{$pageNum}</a></li>";
+            $listItems .= "<li{$css}>$link</li>";
         }
 
         if ($this->hasNextPage($paginator) && $additionalLinks) {
