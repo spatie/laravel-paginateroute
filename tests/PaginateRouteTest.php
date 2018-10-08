@@ -152,6 +152,85 @@ class PaginateRouteTest extends TestCase
 
         $this->assertEquals($allUrlsFull, $response['allUrlsFull']);
     }
+    
+    /**
+     * @test
+     */
+    public function it_returns_limited_urls_with_on_each_side()
+    { 
+        $this->app['router']->paginate('dummies', function () {
+            $dummies = Dummy::paginate(5)->onEachSide(5);
+            $paginateRoute = $this->app['paginateroute'];
+
+            return [
+                'allUrls' => $this->app['paginateroute']->allUrls($dummies),
+                'allUrlsFull' => $this->app['paginateroute']->allUrls($dummies, true),
+            ];
+        });
+
+        $response = $this->callRoute('/');
+
+        // 5 items plus 5 on the side and 1 current item = 11 items visible
+        $allUrls = [
+            $this->hostName.'/dummies',
+            $this->hostName.'/dummies/page/2',
+            $this->hostName.'/dummies/page/3',
+            $this->hostName.'/dummies/page/4',
+            $this->hostName.'/dummies/page/5',
+            $this->hostName.'/dummies/page/6',
+            $this->hostName.'/dummies/page/7',
+            $this->hostName.'/dummies/page/8',
+            $this->hostName.'/dummies/page/9',
+            $this->hostName.'/dummies/page/10',
+            $this->hostName.'/dummies/page/11',
+        ];
+
+        $this->assertEquals($allUrls, $response['allUrls']);
+
+        $allUrlsFull = $allUrls;
+        $allUrlsFull[0] = $this->hostName.'/dummies/page/1';
+
+        $this->assertEquals($allUrlsFull, $response['allUrlsFull']);
+    }
+    
+    /**
+     * @test
+     */
+    public function it_return_zero_on_left_and_ten_on_right_with_on_each_side()
+    {
+        $this->registerDefaultRouteWithEachSide();
+
+        $response = $this->callRoute('/page/1');
+        
+        $this->assertEquals($response['leftPoint'], 1);
+        $this->assertEquals($response['rightPoint'], 11);
+    }
+    
+    /**
+     * @test
+     */
+    public function it_return_five_on_left_and_five_on_right_with_on_each_side()
+    {
+        $this->registerDefaultRouteWithEachSide();
+        $response = $this->callRoute('/page/6');
+
+        $this->assertEquals($response['leftPoint'], 1);
+        $this->assertEquals($response['rightPoint'], 11);
+    }
+    
+    /**
+     * @test
+     */
+    public function it_return_ten_on_left_and_zero_on_right_with_on_each_side()
+    {
+        $this->registerDefaultRouteWithEachSide();
+        $dummies = Dummy::paginate(5)->onEachSide(5);
+        $end = $dummies->lastPage();
+        $response = $this->callRoute('/page/' . $end);
+
+        $this->assertEquals($response['leftPoint'], $end - 10);
+        $this->assertEquals($response['rightPoint'], $end);
+    }
 
     /**
      * @test
