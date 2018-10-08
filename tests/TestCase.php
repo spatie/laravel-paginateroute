@@ -86,6 +86,24 @@ abstract class TestCase extends Orchestra
             ];
         });
     }
+    
+    protected function registerDefaultRouteWithEachSide()
+    {
+        $this->app['router']->paginate('dummies', function () {
+            $dummies = Dummy::paginate(5)->onEachSide(5);
+            $paginateRoute = $this->app['paginateroute'];
+            return [
+                'nextPageUrl' => $this->app['paginateroute']->nextPageUrl($dummies),
+                'hasPrevious' => $this->app['paginateroute']->hasPreviousPage(),
+                'previousPageUrl' => $this->app['paginateroute']->previousPageUrl(),
+                'models' => $dummies->toArray(),
+                'hasNext' => $this->app['paginateroute']->hasNextPage($dummies),
+                'rightPoint' => $paginateRoute->getRightPoint($dummies),
+                'leftPoint' => $paginateRoute->getLeftPoint($dummies),
+            ];
+        });
+    }
+
 
     /**
      * @param string $route
