@@ -183,34 +183,58 @@ class PaginateRoute
         }
 
         $urls = [];
-        $side = $paginator->onEachSide;
-        $current = $paginator->currentPage();
-        $last = $paginator->lastPage();
-
-        if (!empty($side)) {
-            $total = $current + $side;
-            $first = $current - $side;
-            if ($first < 1) {
-                $first = 1;
-                $total += $side;
-            }
-            if ($total > $last) {
-                $total = $last;
-                if ($first > $side + 1) {
-                    $first -= $side;
-                }
-            }
-        }
-        else {
-            $first = 1;
-            $total = $last;
-        }
-        for ($page = $first; $page <= $total; $page++) {
+        $left = $this->getLeftPoint($paginator);
+        $right = $this->getRightPoint($paginator);
+        for ($page = $left; $page <= $right; $page++) {
             $urls[$page] = $this->pageUrl($page, $full);
         }
 
         return $urls;
     }
+
+
+    /**
+     * Get the left most point in the pagination element
+     * 
+     * @param LengthAwarePaginator $paginator
+     * @return int
+     */
+    public function getLeftPoint(LengthAwarePaginator $paginator)
+    {
+        $side = $paginator->onEachSide;
+        $current = $paginator->currentPage();
+        $last = $paginator->lastPage();
+        
+        if (!empty($side)) {
+            $x = $current + $side;
+            $offset = $x > $last ? $x - $last : 0;
+            $left = $current - $side - $offset;
+        }
+        
+        return !isset($left) || $left < 1 ? 1 : $left;
+    }
+
+
+    /**
+     * Get the right or last point of the pagination element
+     * 
+     * @param LengthAwarePaginator $paginator
+     * @return int
+     */
+    public function getRightPoint(LengthAwarePaginator $paginator)
+    {
+        $side = $paginator->onEachSide;
+        $current = $paginator->currentPage();
+        $last = $paginator->lastPage();
+
+        if (!empty($side)) {
+            $offset = $current < $side ? $side - $current + 1 : 0;
+            $right = $current + $side + $offset;
+        }
+
+        return !isset($right) || $right > $last ? $last : $right;
+    }
+    
 
     /**
      * Render a plain html list with previous, next and all urls. The current page gets a current class on the list item.
