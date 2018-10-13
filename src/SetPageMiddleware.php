@@ -4,6 +4,7 @@ namespace Spatie\PaginateRoute;
 
 use Route;
 use Closure;
+use View;
 use Illuminate\Pagination\Paginator;
 
 class SetPageMiddleware
@@ -18,6 +19,8 @@ class SetPageMiddleware
         Paginator::currentPageResolver(function () {
             return app('paginateroute')->currentPage();
         });
+        
+        View::share('hasPaginateRoute', true);
 
         return $next($request);
     }
