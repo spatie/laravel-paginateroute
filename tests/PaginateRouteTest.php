@@ -139,16 +139,16 @@ class PaginateRouteTest extends TestCase
         $response = $this->callRoute('/');
 
         $allUrls = [
-            $this->hostName.'/dummies',
-            $this->hostName.'/dummies/page/2',
-            $this->hostName.'/dummies/page/3',
-            $this->hostName.'/dummies/page/4',
+            1 => $this->hostName.'/dummies',
+            2 => $this->hostName.'/dummies/page/2',
+            3 => $this->hostName.'/dummies/page/3',
+            4 => $this->hostName.'/dummies/page/4',
         ];
 
         $this->assertEquals($allUrls, $response['allUrls']);
 
         $allUrlsFull = $allUrls;
-        $allUrlsFull[0] = $this->hostName.'/dummies/page/1';
+        $allUrlsFull[1] = $this->hostName.'/dummies/page/1';
 
         $this->assertEquals($allUrlsFull, $response['allUrlsFull']);
     }
