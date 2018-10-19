@@ -71,39 +71,23 @@ abstract class TestCase extends Orchestra
         }
     }
 
-    protected function registerDefaultRoute()
+    protected function registerDefaultRoute($withSides = false)
     {
-        $this->app['router']->paginate('dummies', function () {
-            $dummies = Dummy::paginate(5);
+        $this->app['router']->paginate('dummies', function () use ($withSides) {
+            $dummies = $withSides ?  Dummy::paginate(1)->onEachSide(5) : Dummy::paginate(5);
             $paginateRoute = $this->app['paginateroute'];
 
             return [
-                'nextPageUrl' => $this->app['paginateroute']->nextPageUrl($dummies),
-                'hasPrevious' => $this->app['paginateroute']->hasPreviousPage(),
-                'previousPageUrl' => $this->app['paginateroute']->previousPageUrl(),
+                'nextPageUrl' => $paginateRoute->nextPageUrl($dummies),
+                'hasPrevious' => $paginateRoute->hasPreviousPage(),
+                'previousPageUrl' => $paginateRoute->previousPageUrl(),
                 'models' => $dummies->toArray(),
-                'hasNext' => $this->app['paginateroute']->hasNextPage($dummies),
-            ];
-        });
-    }
-    
-    protected function registerDefaultRouteWithEachSide()
-    {
-        $this->app['router']->paginate('dummies', function () {
-            $dummies = Dummy::paginate(5)->onEachSide(5);
-            $paginateRoute = $this->app['paginateroute'];
-            return [
-                'nextPageUrl' => $this->app['paginateroute']->nextPageUrl($dummies),
-                'hasPrevious' => $this->app['paginateroute']->hasPreviousPage(),
-                'previousPageUrl' => $this->app['paginateroute']->previousPageUrl(),
-                'models' => $dummies->toArray(),
-                'hasNext' => $this->app['paginateroute']->hasNextPage($dummies),
+                'hasNext' => $paginateRoute->hasNextPage($dummies),
                 'rightPoint' => $paginateRoute->getRightPoint($dummies),
                 'leftPoint' => $paginateRoute->getLeftPoint($dummies),
             ];
         });
     }
-
 
     /**
      * @param string $route

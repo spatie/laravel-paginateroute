@@ -203,7 +203,7 @@ class PaginateRoute
         $side = $paginator->onEachSide;
         $current = $paginator->currentPage();
         $last = $paginator->lastPage();
-        
+
         if (!empty($side)) {
             $x = $current + $side;
             $offset = $x >= $last ? $x - $last : 0;
