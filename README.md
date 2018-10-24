@@ -1,3 +1,7 @@
+🚨 THIS PACKAGE HAS BEEN ABANDONED 🚨
+
+We don't use this package anymore in our own projects and cannot justify the time needed to maintain it anymore. That's why we have chosen to abandon it. Feel free to fork our code and maintain your own copy.
+
 # Laravel Paginate Route
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-paginateroute.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-paginateroute)
