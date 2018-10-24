@@ -167,6 +167,7 @@ class PaginateRoute
 
         return $this->pageUrl($previousPage, $full);
     }
+
     /**
      * Get all urls in an array.
      *
@@ -193,8 +194,8 @@ class PaginateRoute
     }
 
     /**
-     * Get the left most point in the pagination element
-     * 
+     * Get the left most point in the pagination element.
+     *
      * @param LengthAwarePaginator $paginator
      * @return int
      */
@@ -204,18 +205,18 @@ class PaginateRoute
         $current = $paginator->currentPage();
         $last = $paginator->lastPage();
 
-        if (!empty($side)) {
+        if (! empty($side)) {
             $x = $current + $side;
             $offset = $x >= $last ? $x - $last : 0;
             $left = $current - $side - $offset;
         }
-        
-        return !isset($left) || $left < 1 ? 1 : $left;
+
+        return ! isset($left) || $left < 1 ? 1 : $left;
     }
 
     /**
-     * Get the right or last point of the pagination element
-     * 
+     * Get the right or last point of the pagination element.
+     *
      * @param LengthAwarePaginator $paginator
      * @return int
      */
@@ -225,14 +226,14 @@ class PaginateRoute
         $current = $paginator->currentPage();
         $last = $paginator->lastPage();
 
-        if (!empty($side)) {
+        if (! empty($side)) {
             $offset = $current <= $side ? $side - $current + 1 : 0;
             $right = $current + $side + $offset;
         }
 
-        return !isset($right) || $right > $last ? $last : $right;
+        return ! isset($right) || $right > $last ? $last : $right;
     }
-    
+
     /**
      * Render a plain html list with previous, next and all urls. The current page gets a current class on the list item.
      *

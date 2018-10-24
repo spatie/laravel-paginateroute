@@ -152,13 +152,12 @@ class PaginateRouteTest extends TestCase
 
         $this->assertEquals($allUrlsFull, $response['allUrlsFull']);
     }
-    
+
     /**
      * @test
      */
     public function it_returns_limited_urls_with_on_each_side()
     {
-
         $this->app['router']->paginate('dummies', function () {
             // We only have 20 dummy but needs 11 page
             // limit 1 dummy per page
@@ -195,7 +194,7 @@ class PaginateRouteTest extends TestCase
 
         $this->assertEquals($allUrlsFull, $response['allUrlsFull']);
     }
-    
+
     /**
      * @test
      */
@@ -204,11 +203,11 @@ class PaginateRouteTest extends TestCase
         $this->registerDefaultRoute(true);
 
         $response = $this->callRoute('/page/1');
-        
+
         $this->assertEquals($response['leftPoint'], 1);
         $this->assertEquals($response['rightPoint'], 11);
     }
-    
+
     /**
      * @test
      */
@@ -220,7 +219,7 @@ class PaginateRouteTest extends TestCase
         $this->assertEquals($response['leftPoint'], 1);
         $this->assertEquals($response['rightPoint'], 11);
     }
-    
+
     /**
      * @test
      */
@@ -233,7 +232,7 @@ class PaginateRouteTest extends TestCase
 
         // We set the onEachSide to have 5 pages on left and right thus 10 additional page plus the current page
         $perpage = 5 * 2;
-        $response = $this->callRoute('/page/' . $end);
+        $response = $this->callRoute('/page/'.$end);
 
         $this->assertEquals($response['leftPoint'], $end - $perpage);
         $this->assertEquals($response['rightPoint'], $end);
