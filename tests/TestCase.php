@@ -74,7 +74,7 @@ abstract class TestCase extends Orchestra
     protected function registerDefaultRoute($withSides = false)
     {
         $this->app['router']->paginate('dummies', function () use ($withSides) {
-            $dummies = $withSides ?  Dummy::paginate(1)->onEachSide(5) : Dummy::paginate(5);
+            $dummies = $withSides ? Dummy::paginate(1)->onEachSide(5) : Dummy::paginate(5);
             $paginateRoute = $this->app['paginateroute'];
 
             return [
