@@ -139,18 +139,104 @@ class PaginateRouteTest extends TestCase
         $response = $this->callRoute('/');
 
         $allUrls = [
-            $this->hostName.'/dummies',
-            $this->hostName.'/dummies/page/2',
-            $this->hostName.'/dummies/page/3',
-            $this->hostName.'/dummies/page/4',
+            1 => $this->hostName.'/dummies',
+            2 => $this->hostName.'/dummies/page/2',
+            3 => $this->hostName.'/dummies/page/3',
+            4 => $this->hostName.'/dummies/page/4',
         ];
 
         $this->assertEquals($allUrls, $response['allUrls']);
 
         $allUrlsFull = $allUrls;
-        $allUrlsFull[0] = $this->hostName.'/dummies/page/1';
+        $allUrlsFull[1] = $this->hostName.'/dummies/page/1';
 
         $this->assertEquals($allUrlsFull, $response['allUrlsFull']);
+    }
+    
+    /**
+     * @test
+     */
+    public function it_returns_limited_urls_with_on_each_side()
+    {
+
+        $this->app['router']->paginate('dummies', function () {
+            // We only have 20 dummy but needs 11 page
+            // limit 1 dummy per page
+            $dummies = Dummy::paginate(1)->onEachSide(5);
+            $paginateRoute = $this->app['paginateroute'];
+
+            return [
+                'allUrls' => $paginateRoute->allUrls($dummies),
+                'allUrlsFull' => $paginateRoute->allUrls($dummies, true),
+            ];
+        });
+
+        $response = $this->callRoute('/');
+
+        // 5 items plus 5 on the side and 1 current item = 11 items visible
+        $allUrls = [
+            1  => $this->hostName.'/dummies',
+            2  => $this->hostName.'/dummies/page/2',
+            3  => $this->hostName.'/dummies/page/3',
+            4  => $this->hostName.'/dummies/page/4',
+            5  => $this->hostName.'/dummies/page/5',
+            6  => $this->hostName.'/dummies/page/6',
+            7  => $this->hostName.'/dummies/page/7',
+            8  => $this->hostName.'/dummies/page/8',
+            9  => $this->hostName.'/dummies/page/9',
+            10 => $this->hostName.'/dummies/page/10',
+            11 => $this->hostName.'/dummies/page/11',
+        ];
+
+        $this->assertEquals($allUrls, $response['allUrls']);
+
+        $allUrlsFull = $allUrls;
+        $allUrlsFull[1] = $this->hostName.'/dummies/page/1';
+
+        $this->assertEquals($allUrlsFull, $response['allUrlsFull']);
+    }
+    
+    /**
+     * @test
+     */
+    public function it_return_zero_on_left_and_ten_on_right_with_on_each_side()
+    {
+        $this->registerDefaultRoute(true);
+
+        $response = $this->callRoute('/page/1');
+        
+        $this->assertEquals($response['leftPoint'], 1);
+        $this->assertEquals($response['rightPoint'], 11);
+    }
+    
+    /**
+     * @test
+     */
+    public function it_return_five_on_left_and_five_on_right_with_on_each_side()
+    {
+        $this->registerDefaultRoute(true);
+        $response = $this->callRoute('/page/6');
+
+        $this->assertEquals($response['leftPoint'], 1);
+        $this->assertEquals($response['rightPoint'], 11);
+    }
+    
+    /**
+     * @test
+     */
+    public function it_return_ten_on_left_and_zero_on_right_with_on_each_side()
+    {
+        $this->registerDefaultRoute(true);
+
+        // The test dummy is defined with 20 entries @ 1 entry per page = 20 page.
+        $end = 20;
+
+        // We set the onEachSide to have 5 pages on left and right thus 10 additional page plus the current page
+        $perpage = 5 * 2;
+        $response = $this->callRoute('/page/' . $end);
+
+        $this->assertEquals($response['leftPoint'], $end - $perpage);
+        $this->assertEquals($response['rightPoint'], $end);
     }
 
     /**
@@ -163,24 +249,24 @@ class PaginateRouteTest extends TestCase
             $paginateRoute = $this->app['paginateroute'];
 
             return [
-                'list' => $this->app['paginateroute']->renderPageList($dummies),
-                'listClass' => $this->app['paginateroute']->renderPageList($dummies, false, 'pagination'),
+                'list' => $paginateRoute->renderPageList($dummies),
+                'listClass' => $paginateRoute->renderPageList($dummies, false, 'pagination'),
             ];
         });
 
         $firstPage = $this->callRoute('/');
 
-        $expectedForFirstPage = '<ul><li class="active"><a href="http://localhost/dummies">1</a></li><li><a href="http://localhost/dummies/page/2">2</a></li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
+        $expectedForFirstPage = '<ul><li class="active">1</li><li><a href="http://localhost/dummies/page/2">2</a></li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
 
         $this->assertEquals($expectedForFirstPage, $firstPage['list']);
 
         $secondPage = $this->callRoute('/page/2');
 
-        $expectedForSecondPage = '<ul><li><a href="http://localhost/dummies">1</a></li><li class="active"><a href="http://localhost/dummies/page/2">2</a></li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
+        $expectedForSecondPage = '<ul><li><a href="http://localhost/dummies">1</a></li><li class="active">2</li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
 
         $this->assertEquals($expectedForSecondPage, $secondPage['list']);
 
-        $expectedForFirstPageWithClass = '<ul class="pagination"><li class="active"><a href="http://localhost/dummies">1</a></li><li><a href="http://localhost/dummies/page/2">2</a></li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
+        $expectedForFirstPageWithClass = '<ul class="pagination"><li class="active">1</li><li><a href="http://localhost/dummies/page/2">2</a></li><li><a href="http://localhost/dummies/page/3">3</a></li><li><a href="http://localhost/dummies/page/4">4</a></li></ul>';
     }
 
     /** @test */
